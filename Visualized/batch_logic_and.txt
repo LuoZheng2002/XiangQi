@@ -1,0 +1,1 @@
+return not input0.exist(target != True)

@@ -51,7 +51,7 @@ def solve_expression(expr: AGIObject, runtime_memory: RuntimeMemory, cid_of, cod
         code_id = expr.attributes[cid_of['dc::function_name']].concept_id
         function_params = list()
         for param in expr.attributes[cid_of['dc::function_params']].value:
-            function_params.append(solve_expression(param, runtime_memory, cid_of, code_dir))
+            function_params.append(solve_expression(param, runtime_memory, cid_of, code_dir, target))
         function_params = AGIList(function_params)
         if is_code_dynamic(code_id, code_dir, cid_of):
             try:
@@ -67,18 +67,21 @@ def solve_expression(expr: AGIObject, runtime_memory: RuntimeMemory, cid_of, cod
     if expr.concept_id == cid_of['dcr::concept_instance']:
         return create_concept_instance(expr.attributes[cid_of['dc::concept_name']].concept_id, cid_of)
     if expr.concept_id == cid_of['dcr::size']:
-        target_list = solve_expression(expr.attributes[cid_of['dc::target_list']], runtime_memory, cid_of, target)
+        target_list = solve_expression(expr.attributes[cid_of['dc::target_list']],
+                                       runtime_memory, cid_of, code_dir, target)
         if type(target_list) == AGIObject:
             target_list = target_list.agi_list()
         else:
             assert type(target_list) == AGIList
         return num_obj(target_list.size(), cid_of)
     if expr.concept_id == cid_of['dcr::get_member']:
-        target_object = solve_expression(expr.attributes[cid_of['dc::target_object']], runtime_memory, cid_of, target)
+        target_object = solve_expression(expr.attributes[cid_of['dc::target_object']],
+                                         runtime_memory, cid_of, code_dir, target)
         member_id = expr.attributes[cid_of['dc::member_name']].concept_id
         return target_object.attributes[member_id]
     if expr.concept_id == cid_of['dcr::at']:
-        target_list = solve_expression(expr.attributes[cid_of['dc::target_list']], runtime_memory, cid_of, target)
+        target_list = solve_expression(expr.attributes[cid_of['dc::target_list']],
+                                       runtime_memory, cid_of, code_dir, target)
         index = to_integer(solve_expression(expr.attributes[cid_of['dc::element_index']],
                                             runtime_memory, cid_of, code_dir, target), cid_of)
         if type(target_list) == AGIObject:
@@ -88,7 +91,8 @@ def solve_expression(expr: AGIObject, runtime_memory: RuntimeMemory, cid_of, cod
         return target_list.get_element(index)
     if expr.concept_id == cid_of['dcr::find'] or \
             expr.concept_id == cid_of['dcr::exist'] or expr.concept_id == cid_of['dcr::count']:
-        target_list = solve_expression(expr.attributes[cid_of['dc::target_list']], runtime_memory, cid_of, target)
+        target_list = solve_expression(expr.attributes[cid_of['dc::target_list']],
+                                       runtime_memory, cid_of, code_dir, target)
         if type(target_list) == AGIObject:
             target_list = target_list.agi_list()
         else:
@@ -96,7 +100,7 @@ def solve_expression(expr: AGIObject, runtime_memory: RuntimeMemory, cid_of, cod
         count = 0
         for element in target_list.value:
             if solve_expression(expr.attributes[cid_of['dc::expression_for_constraint']],
-                                runtime_memory, cid_of, element).concept_id == cid_of['True']:
+                                runtime_memory, cid_of, code_dir, element).concept_id == cid_of['True']:
                 if expr.concept_id == cid_of['dcr::find']:
                     return element
                 if expr.concept_id == cid_of['dcr::exist']:
@@ -291,7 +295,7 @@ def process_line(line: AGIObject, runtime_memory: RuntimeMemory, cid_of, code_di
         if line.concept_id == cid_of['dcr::request']:
             for reg_id in line.attributes[cid_of['dc::requested_registers']].value:
                 reg_id_int = to_integer(reg_id, cid_of)
-                raw_input = input('Dynamic code asks you to fill in reg' + str(reg_id_int) + '!')
+                raw_input = input('Dynamic code asks you to fill in reg' + str(reg_id_int) + '!\n')
                 if raw_input.isdigit():
                     input_object = num_obj(int(raw_input), cid_of)
                 else:

@@ -235,7 +235,7 @@ def generate_expression(expr: list, cid_of) -> AGIObject:
             function_name = obj('func::compare_concepts', cid_of)
         elif '=!=' in expr and find_naked_symbol(expr, '=!=', True) != -1:
             pos = find_naked_symbol(expr, '=!=', True)
-            function_name = obj('func::compare_concepts', cid_of)
+            function_name = obj('func::math_equal', cid_of)
         else:
             assert False
         function_params = list()

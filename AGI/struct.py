@@ -41,7 +41,8 @@ class AGIList:
             self.list_type = 'list'
 
     def get_element(self, index):
-        assert self.list_type is None or self.list_type == 'list'
+        if not (self.list_type is None or self.list_type == 'list'):
+            raise StructureException('This list is supposed to be a list.')
         self.list_type = 'list'
         return self.value[index]
 

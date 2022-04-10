@@ -4,49 +4,32 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4477cdc3-3a80-447f-ae63-b02b31341c4e" name="Changes" comment="dynamic code system optimized">
-      <change afterPath="$PROJECT_DIR$/AGI/code_getter_fundamental.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Exception/structure_exception.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Formatted/107.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Formatted/108.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Formatted/109.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Formatted/110.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Formatted/111.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Formatted/112.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Formatted/113.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Hardcoded/is_code_dynamic_func.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Hardcoded/run_hardcoded_code.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Visualized/batch_logic_and.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Visualized/batch_logic_or.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Visualized/greater_than.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Visualized/greater_than_or_equal_to.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Visualized/less_than.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Visualized/less_than_or_equal_to.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Visualized/math_equal.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Visualized/max.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Visualized/min.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Visualized/run_dynamic_code_object.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/concept_control.py" afterDir="false" />
+    <list default="true" id="4477cdc3-3a80-447f-ae63-b02b31341c4e" name="Changes" comment="checkpoint">
+      <change afterPath="$PROJECT_DIR$/Formatted/114.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Formatted/115.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Formatted/116.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Formatted/164.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Formatted/165.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Formatted/166.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Formatted/167.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Game/structures.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Visualized/end_game_benefit.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Visualized/end_game_func.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Visualized/operation_func.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Visualized/who_is_next_func.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/XiangQi/chessboard_browser.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/XiangQi/instance.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AGI/code_browser.py" beforeDir="false" afterPath="$PROJECT_DIR$/AGI/code_browser.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AGI/code_driver.py" beforeDir="false" afterPath="$PROJECT_DIR$/AGI/code_driver.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AGI/code_generator.py" beforeDir="false" afterPath="$PROJECT_DIR$/AGI/code_generator.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AGI/code_getter.py" beforeDir="false" afterPath="$PROJECT_DIR$/AGI/code_getter.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AGI/concept_ids.py" beforeDir="false" afterPath="$PROJECT_DIR$/Concept/concept_ids.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AGI/concept_instance_creator.py" beforeDir="false" afterPath="$PROJECT_DIR$/AGI/concept_instance_creator.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AGI/objects.py" beforeDir="false" afterPath="$PROJECT_DIR$/AGI/objects.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AGI/struct.py" beforeDir="false" afterPath="$PROJECT_DIR$/AGI/struct.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AGI/translate_struct.py" beforeDir="false" afterPath="$PROJECT_DIR$/AGI/translate_struct.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Concept/concept_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/Concept/concept_manager.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Concept/concepts.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Concept/concepts.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Exception/dynamic_code_exception.py" beforeDir="false" afterPath="$PROJECT_DIR$/Exception/dynamic_code_exception.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Exception/hardcoded_code_exception.py" beforeDir="false" afterPath="$PROJECT_DIR$/Exception/hardcoded_code_exception.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Hardcoded/unclassified.py" beforeDir="false" afterPath="$PROJECT_DIR$/Hardcoded/unclassified.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Visualized/compare_natural_numbers.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Visualized/compare_natural_numbers.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Visualized/digit_to_natural_number.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Visualized/digit_to_natural_number.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Formatted/126.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Visualized/batch_logic_and.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Visualized/batch_logic_and.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Visualized/batch_logic_or.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Visualized/batch_logic_or.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Visualized/test.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Visualized/test.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test2.py" beforeDir="false" afterPath="$PROJECT_DIR$/test2.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test_run.py" beforeDir="false" afterPath="$PROJECT_DIR$/test_run.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -92,7 +75,7 @@
       <recent name="C:\Users\luo20\Desktop\AGI Project\Game3\Exception" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.test">
+  <component name="RunManager" selected="Python.main">
     <configuration name="concept_control" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="Game3" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -222,7 +205,14 @@
       <option name="project" value="LOCAL" />
       <updated>1649506225369</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="checkpoint">
+      <created>1649563576934</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1649563576934</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -240,6 +230,7 @@
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="dynamic code system optimized" />
-    <option name="LAST_COMMIT_MESSAGE" value="dynamic code system optimized" />
+    <MESSAGE value="checkpoint" />
+    <option name="LAST_COMMIT_MESSAGE" value="checkpoint" />
   </component>
 </project>

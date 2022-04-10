@@ -191,7 +191,7 @@ def translate_line(line: AGIObject, cid_of, cid_reverse, indentation_count=0) ->
                                to_integer(line.attributes[cid_of['dc::line_index']], cid_of))
     if line.concept_id == cid_of['dcr::request']:
         result = 'request '
-        assert type(line.attributes[cid_of['dc::requested_registers']], cid_of, cid_reverse) == AGIList
+        assert type(line.attributes[cid_of['dc::requested_registers']]) == AGIList
         for reg_id in line.attributes[cid_of['dc::requested_registers']].value:
             result += 'reg' + str(to_integer(reg_id, cid_of)) + ', '
         result += 's.t.{'
