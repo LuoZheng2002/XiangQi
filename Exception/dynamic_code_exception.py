@@ -1,7 +1,6 @@
-from AGI.concept_ids import cid_reverse
 from AGI.translate_struct import print_obj
 from AGI.code_browser import translate_code
-
+import traceback
 
 class HardcodedExceptionInfo:
     def __init__(self, function_name):
@@ -33,26 +32,28 @@ class DynamicCodeException(BaseException):
         self.description = description
         self.line_cache = None
 
-    def show(self):
-        print('Dynamic Code Exception Triggered!')
-        print(self.description)
-        for process in self.call_stacks:
-            if type(process) == DynamicExceptionInfo:
-                print('Process: \'' + cid_reverse[process.code_id] + "'")
-                print('Input params are:')
-                for i, param in enumerate(process.input_params):
-                    print('input' + str(i) + ':')
-                    print_obj(param)
-                print('The problematic line is: ' + str(process.line))
-                print('The runtime registers are:')
-                for register in process.runtime_memory.registers:
-                    print('reg' + str(register.index) + ':')
-                    print_obj(register.value)
-                print('The code is:')
-                translate_code(process.code_id)
-                print()
-            elif type(process) == HardcodedExceptionInfo:
-                print('Hardcoded Process: ' + process.function_name)
-                print()
-            else:
-                assert False
+
+def show_dynamic_code_exception(dce: DynamicCodeException, cid_of, cid_reverse):
+    print('Dynamic Code Exception Triggered!')
+    print(dce.description)
+    for process in dce.call_stacks:
+        if type(process) == DynamicExceptionInfo:
+            print('Process: \'' + cid_reverse[process.code_id] + "'")
+            print('Input params are:')
+            for i, param in enumerate(process.input_params):
+                print('input' + str(i) + ':')
+                print_obj(param, cid_reverse)
+            print('The problematic line is: ' + str(process.line))
+            print('The runtime registers are:')
+            for register in process.runtime_memory.registers:
+                print('reg' + str(register.index) + ':')
+                print_obj(register.value, cid_reverse)
+            print('The code is:')
+            translate_code(process.code_id, cid_of, cid_reverse)
+            print()
+        elif type(process) == HardcodedExceptionInfo:
+            print('Hardcoded Process: ' + process.function_name)
+            print()
+        else:
+            assert False
+    traceback.print_exc()

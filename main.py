@@ -1,8 +1,8 @@
-from AGI.code_driver import run_dynamic_code
-from AGI.struct import AGIObject,AGIList
-from AGI.concept_ids import cid_of
-from Exception.dynamic_code_exception import DynamicCodeException
+from Exception.dynamic_code_exception import DynamicCodeException, show_dynamic_code_exception
+from Concept.concept_manager import summon_concepts
+
+cid_of, cid_reverse = summon_concepts('Concept/concepts.txt')
 try:
-    result = run_dynamic_code(cid_of['test'], )
+    print(cid_of)
 except DynamicCodeException as d:
-    d.show()
+    show_dynamic_code_exception(d, cid_of, cid_reverse)

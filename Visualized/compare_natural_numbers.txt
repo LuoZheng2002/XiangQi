@@ -1,0 +1,16 @@
+if 'func::is_natural_number_single_digit'(input0) and 'func::is_natural_number_single_digit'(input1):
+    return 'func::compare_single_digit_natural_numbers'(input0, input1)
+reg0 = input0.size
+reg1 = input1.size
+reg2 = 'func::compare_natural_numbers'(reg0, reg1)
+if reg2 == 'greater_than':
+    return 'greater_than'
+elif reg2 == 'less_than':
+    return 'less_than'
+for i in range(reg0):
+    reg3 = 'func::compare_single_digit_natural_numbers'('func::digit_to_natural_number'(input0[i]), 'func::digit_to_natural_number'(input1[i]))
+    if reg3 == 'greater_than':
+        return 'greater_than'
+    elif reg3 == 'less_than':
+        return 'less_than'
+return 'math_equal'

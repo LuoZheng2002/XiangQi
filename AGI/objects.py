@@ -1,9 +1,9 @@
 from AGI.struct import AGIObject, AGIList
-from AGI.concept_ids import cid_of
 from AGI.concept_instance_creator import create_concept_instance
 from Exception.agi_exception import AGIException
+from Exception.structure_exception import StructureException
 
-def num_obj(number: int) -> AGIObject:
+def num_obj(number: int, cid_of) -> AGIObject:
     number_str = str(number)
     object_list = []
     for digit in number_str:
@@ -11,17 +11,17 @@ def num_obj(number: int) -> AGIObject:
     return AGIObject(cid_of['natural_number'], {cid_of['content']: AGIList(object_list)})
 
 
-def obj(concept: int or str) -> AGIObject:
+def obj(concept: int or str, cid_of) -> AGIObject:
     if type(concept) == int:
-        return create_concept_instance(concept)
+        return create_concept_instance(concept, cid_of)
     if type(concept) == str:
-        return create_concept_instance(cid_of[concept])
+        return create_concept_instance(cid_of[concept], cid_of)
     assert False
 
 
-def to_integer(natural_number: AGIObject) -> int:
+def to_integer(natural_number: AGIObject, cid_of) -> int:
     if type(natural_number) != AGIObject:
-        raise AGIException('Expect AGIObject', special_name='type', special_str=str(type(natural_number)))
+        raise StructureException('Failed to convert an AGIObject to integer.')
     if natural_number.concept_id != cid_of['natural_number']:
         raise AGIException('Expect natural number')
     integer_str = str()
@@ -49,5 +49,5 @@ def to_integer(natural_number: AGIObject) -> int:
         elif digit_id == cid_of['9']:
             integer_str += '9'
         else:
-            raise AGIException('Unexpected thing as digit.', special_name='thing', special_str=str(cid_reverse[digit_id]))
+            raise AGIException('Unexpected thing as digit.')
     return int(integer_str)

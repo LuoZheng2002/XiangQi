@@ -1,0 +1,1 @@
+return 'func::compare_natural_numbers'(input0, input1) == 'math_equal'

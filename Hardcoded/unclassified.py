@@ -1,36 +1,34 @@
 from AGI.struct import AGIObject, AGIList
 from Exception.agi_exception import AGIException
-from AGI.concept_ids import cid_of, cid_reverse
 from AGI.objects import obj, num_obj, to_integer
 from AGI.concept_instance_creator import create_concept_instance
+from Exception.hardcoded_code_exception import HardcodedCodeException
 
-
-def compare_concepts(params: list) -> AGIObject:
-    if len(params) != 2:
+def compare_concepts(params: AGIList, cid_of) -> AGIObject:
+    if params.size() != 2:
         raise AGIException('Function should receive 2 params.')
-    param1 = params[0]
-    param2 = params[1]
+    param1 = params.get_element(0)
+    param2 = params.get_element(1)
     if type(param1) != AGIObject or type(param2) != AGIObject:
-        raise AGIException('Parameters should be AGIObjects.', special_name='type',
-                           special_str=str(cid_reverse[param2.concept_id]))
+        raise AGIException('Parameters should be AGIObjects.')
     if param1.concept_id == param2.concept_id:
         return AGIObject(cid_of['True'], dict())
     else:
         return AGIObject(cid_of['False'], dict())
 
 
-def logic_and(params: list) -> AGIObject:
-    if len(params) != 2:
+def logic_and(params: AGIList, cid_of) -> AGIObject:
+    if params.size() != 2:
         raise AGIException('logic_and function should receive 2 params.')
-    param1 = params[0]
-    param2 = params[1]
+    param1 = params.get_element(0)
+    param2 = params.get_element(1)
     if type(param1) != AGIObject or type(param2) != AGIObject:
         raise AGIException('Parameters should be AGIObjects.')
     if (param1.concept_id != cid_of['True'] and param1.concept_id != cid_of['False'] and param1.concept_id != cid_of[
         'Fail']) or \
             (param2.concept_id != cid_of['True'] and param2.concept_id != cid_of['False'] and param2.concept_id !=
              cid_of['Fail']):
-        raise AGIException('Invalid parameters in logic_and function.')
+        raise HardcodedCodeException('Invalid parameters in logic_and function.', 'func::logic_and')
     if param1.concept_id == cid_of['False'] or param2.concept_id == cid_of['False']:
         return AGIObject(cid_of['False'], dict())
     elif param1.concept_id == cid_of['Fail'] or param2.concept_id == cid_of['Fail']:
@@ -39,11 +37,11 @@ def logic_and(params: list) -> AGIObject:
         return AGIObject(cid_of['True'], dict())
 
 
-def logic_or(params: list) -> AGIObject:
-    if len(params) != 2:
+def logic_or(params: AGIList, cid_of) -> AGIObject:
+    if params.size() != 2:
         raise AGIException('logic_and function should receive 2 params.')
-    param1 = params[0]
-    param2 = params[1]
+    param1 = params.get_element(0)
+    param2 = params.get_element(1)
     if type(param1) != AGIObject or type(param2) != AGIObject:
         raise AGIException('Parameters should be AGIObjects.')
     if (param1.concept_id != cid_of['True'] and param1.concept_id != cid_of['False'] and param1.concept_id != cid_of[
@@ -59,10 +57,10 @@ def logic_or(params: list) -> AGIObject:
         return AGIObject(cid_of['False'], dict())
 
 
-def logic_not(params: list) -> AGIObject:
-    if len(params) != 1:
+def logic_not(params: AGIList, cid_of) -> AGIObject:
+    if params.size() != 1:
         raise AGIException('logic_not function should receive 1 param.')
-    param = params[0]
+    param = params.get_element(0)
     if type(param) != AGIObject:
         print(param)
         raise AGIException('Parameters should be AGIObjects.')
@@ -77,16 +75,16 @@ def logic_not(params: list) -> AGIObject:
         return AGIObject(cid_of['True'], dict())
 
 
-def is_natural_number_single_digit(params: list) -> AGIObject:
-    if len(params) != 1:
+def is_natural_number_single_digit(params: AGIList, cid_of) -> AGIObject:
+    if params.size() != 1:
         raise AGIException('This function should receive 1 param.')
-    param = params[0]
+    param = params.get_element(0)
     if type(param) != AGIObject:
         raise AGIException('Parameters should be AGIObjects.')
     if param.concept_id == cid_of['Fail']:
-        return obj('Fail')
+        return obj('Fail', cid_of)
     if param.concept_id != cid_of['natural_number']:
-        raise AGIException('Parameter should be natural number.')
+        raise HardcodedCodeException('Parameter should be natural number.', 'func::is_natural_number_single_digit')
     if param.attributes[cid_of['content']].size() == 1:
         return AGIObject(cid_of['True'], dict())
     else:
@@ -94,15 +92,15 @@ def is_natural_number_single_digit(params: list) -> AGIObject:
 
 
 # 参数：两个一位自然数
-def compare_single_digit_natural_numbers(params: list) -> AGIObject:
-    if len(params) != 2:
+def compare_single_digit_natural_numbers(params: AGIList, cid_of) -> AGIObject:
+    if params.size() != 2:
         raise AGIException('This function should receive 2 params.')
-    param1 = params[0]
-    param2 = params[1]
+    param1 = params.get_element(0)
+    param2 = params.get_element(1)
     if type(param1) != AGIObject or type(param2) != AGIObject:
         raise AGIException('Parameters should be AGIObjects.')
     if param1.concept_id == cid_of['Fail'] or param2.concept_id == cid_of['Fail']:
-        return obj('Fail')
+        return obj('Fail', cid_of)
     if param1.concept_id != cid_of['natural_number'] or param2.concept_id != cid_of['natural_number']:
         raise AGIException('Parameters should be natural numbers.')
     if param1.attributes[cid_of['content']].size() != 1 or param2.attributes[cid_of['content']].size() != 1:
@@ -142,77 +140,77 @@ def compare_single_digit_natural_numbers(params: list) -> AGIObject:
         return AGIObject(cid_of['greater_than'], dict())
 
 
-def sum_func(params: list) -> AGIObject:
-    if len(params) != 2:
+def sum_func(params: AGIList, cid_of) -> AGIObject:
+    if params.size() != 2:
         raise AGIException('This function should receive 2 params.')
-    param1 = params[0]
-    param2 = params[1]
+    param1 = params.get_element(0)
+    param2 = params.get_element(1)
     if type(param1) != AGIObject or type(param2) != AGIObject:
         raise AGIException('Parameters should be AGIObjects.')
     if param1.concept_id == cid_of['Fail'] or param2.concept_id == cid_of['Fail']:
-        return obj('Fail')
+        return obj('Fail', cid_of)
     if param1.concept_id != cid_of['natural_number'] or param2.concept_id != cid_of['natural_number']:
         raise AGIException('Parameters should be natural numbers.')
-    number1 = to_integer(param1)
-    number2 = to_integer(param2)
-    return num_obj(number1 + number2)
+    number1 = to_integer(param1, cid_of)
+    number2 = to_integer(param2, cid_of)
+    return num_obj(number1 + number2, cid_of)
 
 
-def difference_func(params: list) -> AGIObject:
-    if len(params) != 2:
+def difference_func(params: AGIList, cid_of) -> AGIObject:
+    if params.size() != 2:
         raise AGIException('This function should receive 2 params.')
-    param1 = params[0]
-    param2 = params[1]
+    param1 = params.get_element(0)
+    param2 = params.get_element(1)
     if type(param1) != AGIObject or type(param2) != AGIObject:
         raise AGIException('Parameters should be AGIObjects.')
     if param1.concept_id == cid_of['Fail'] or param2.concept_id == cid_of['Fail']:
-        return obj('Fail')
+        return obj('Fail', cid_of)
     if param1.concept_id != cid_of['natural_number'] or param2.concept_id != cid_of['natural_number']:
         raise AGIException('Parameters should be natural numbers.')
-    number1 = to_integer(param1)
-    number2 = to_integer(param2)
+    number1 = to_integer(param1, cid_of)
+    number2 = to_integer(param2, cid_of)
     if number1 - number2 < 0:
-        return obj('Fail')
-    return num_obj(number1 - number2)
+        return obj('Fail', cid_of)
+    return num_obj(number1 - number2, cid_of)
 
 
-# params[0]: object, params[1]: member object
-def get_object_member_func(params: list) -> AGIObject:
-    target_object = params[0]
-    member_object = params[1]
+# params.get_element(0): object, params.get_element(1): member object
+def get_object_member_func(params: AGIList, cid_of) -> AGIObject:
+    target_object = params.get_element(0)
+    member_object = params.get_element(1)
     assert type(target_object) == AGIObject and type(member_object) == AGIObject
     assert member_object.concept_id in target_object.attributes.keys()
     return target_object.attributes[member_object.concept_id]
 
 
-# params[0]: object, params[1]: member object, params[2]: value
-def set_object_member_func(params: list):
-    target_object = params[0]
-    member_object = params[1]
-    value = params[2]
+# params.get_element(0): object, params.get_element(1): member object, params[2]: value
+def set_object_member_func(params: AGIList, cid_of):
+    target_object = params.get_element(0)
+    member_object = params.get_element(1)
+    value = params.get_element(2)
     assert type(target_object) == AGIObject and type(member_object) == AGIObject
     assert member_object.concept_id in target_object.attributes.keys()
     target_object.attributes[member_object.concept_id] = value
 
 
 #
-def remove_element_by_index(params: list):
-    target_list = params[0]
-    index = params[1]
+def remove_element_by_index(params: AGIList, cid_of):
+    target_list = params.get_element(0)
+    index = params.get_element(1)
     if type(target_list) == AGIObject:
         target_list = target_list.agi_list()
     assert type(target_list) == AGIList
     if target_list.size() == 0:
-        raise AGIException('empty list', special_name='index', special_str=str(to_integer(index)))
-    target_list.remove(to_integer(index))
+        raise AGIException('empty list', special_name='index', special_str=str(to_integer(index, cid_of)))
+    target_list.remove(to_integer(index, cid_of))
 
 
-def get_input_object(params: list):
-    input_object = num_obj(int(input('Dynamic code simulator asks you to input one param.\n')))
+def get_input_object(params: AGIList, cid_of):
+    input_object = num_obj(int(input('Dynamic code simulator asks you to input one param.\n')), cid_of)
     return input_object
 
 
-def create_concept_instance_func(params: list):
-    assert type(params[0]) == AGIObject
-    concept_id = params[0].concept_id
-    return create_concept_instance(concept_id)
+def create_concept_instance_func(params: AGIList, cid_of):
+    assert type(params.get_element(0)) == AGIObject
+    concept_id = params.get_element(0).concept_id
+    return create_concept_instance(concept_id, cid_of)

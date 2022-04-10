@@ -1,0 +1,2 @@
+reg0 &= 'func::compare_natural_numbers'(input0, input1)
+return reg0 == 'greater_than' or reg0 == 'math_equal'

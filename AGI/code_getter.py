@@ -1,20 +1,19 @@
-from AGI.struct import AGIObject, AGIList
-from AGI.concept_ids import cid_of, cid_reverse
+from AGI.struct import AGIObject
+from AGI.code_getter_fundamental import get_most_hardcoded_code
+from Hardcoded.is_code_dynamic_func import is_code_dynamic_func
+from Hardcoded.run_hardcoded_code import run_hardcoded_code
 import pickle
-import os
-hardcoded_code_dict = {
-    cid_of['func::sum']: None
-}
 
 
-def is_code_dynamic(code_id: int) -> bool:
-    dynamic = str(code_id) + '.txt' in os.listdir('../Formatted')
-    hardcoded = code_id in hardcoded_code_dict
-    assert not (dynamic and hardcoded)
-    assert dynamic or hardcoded
-    if dynamic:
-        return True
-    return False
+def get_hardcoded_code(code_id, cid_of):
+    result = get_most_hardcoded_code(code_id, cid_of)
+    if result is not None:
+        return result
+    if code_id == cid_of['func::is_code_dynamic']:
+        return is_code_dynamic_func
+    if code_id == cid_of['func::run_hardcoded_code']:
+        return run_hardcoded_code
+    return None
 
 
 def get_dynamic_code(code_id: int) -> AGIObject:

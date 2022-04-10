@@ -1,5 +1,5 @@
 from Exception.agi_exception import AGIException
-from AGI.concept_ids import cid_of
+from Exception.structure_exception import StructureException
 
 
 class AGIObject:
@@ -10,13 +10,6 @@ class AGIObject:
         else:
             self.attributes = dict()
 
-    def attribute(self, name: str):
-        if name not in cid_of.keys():
-            raise AGIException('Invalid concept id: \'' + name + '\'!')
-        if cid_of[name] not in self.attributes.keys():
-            raise AGIException('The attribute \'' + name + '\'does not exist in AGIObject.')
-        return self.attributes[cid_of[name]]
-
     def agi_list(self):
         if len(self.attributes) != 1:
             raise AGIException('Trying to get list from AGIObject but AGIObject has more than one attribute')
@@ -24,7 +17,7 @@ class AGIObject:
             if self.attributes[i] is None:
                 self.attributes[i] = AGIList()
             elif type(self.attributes[i]) != AGIList:
-                raise AGIException('Target type is not AGIList', special_name='type', special_str=str(type(i)))
+                raise StructureException('The element in AGIObject is not AGIList.')
             return self.attributes[i]
 
 

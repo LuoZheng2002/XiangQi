@@ -1,0 +1,3 @@
+if input0 < input1:
+    return input0
+return input1

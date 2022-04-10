@@ -1,9 +1,8 @@
-from AGI.concept_ids import cid_reverse
 from AGI.struct import AGIObject, AGIList
 from Exception.agi_exception import AGIException
 
 
-def translate_AGIList(agi_list: AGIList, indentation=0, attribute_name=str()):
+def translate_AGIList(agi_list: AGIList, cid_reverse, indentation=0, attribute_name=str()):
     result = str()
     for i in range(indentation):
         result += '|   '
@@ -12,9 +11,9 @@ def translate_AGIList(agi_list: AGIList, indentation=0, attribute_name=str()):
     result += 'AGIList\n'
     for i in agi_list.value:
         if type(i) == AGIObject:
-            result += translate_AGIObject(i, indentation + 1)
+            result += translate_AGIObject(i, cid_reverse, indentation + 1)
         elif type(i) == AGIList():
-            result += translate_AGIList(i, indentation + 1)
+            result += translate_AGIList(i, cid_reverse, indentation + 1)
         elif type(i) is None:
             for j in range(indentation + 1):
                 result += '    '
@@ -24,7 +23,7 @@ def translate_AGIList(agi_list: AGIList, indentation=0, attribute_name=str()):
     return result
 
 
-def translate_AGIObject(agi_object: AGIObject, indentation=0, attribute_name=str()):
+def translate_AGIObject(agi_object: AGIObject, cid_reverse, indentation=0,  attribute_name=str()):
     result = str()
     for i in range(indentation):
         result += '|   '
@@ -33,9 +32,9 @@ def translate_AGIObject(agi_object: AGIObject, indentation=0, attribute_name=str
     result += "'" + cid_reverse[agi_object.concept_id] + "'\n"
     for i in agi_object.attributes:
         if type(agi_object.attributes[i]) == AGIObject:
-            result += translate_AGIObject(agi_object.attributes[i], indentation + 1, cid_reverse[i])
+            result += translate_AGIObject(agi_object.attributes[i], cid_reverse, indentation + 1, cid_reverse[i])
         elif type(agi_object.attributes[i]) == AGIList:
-            result += translate_AGIList(agi_object.attributes[i], indentation + 1, cid_reverse[i])
+            result += translate_AGIList(agi_object.attributes[i], cid_reverse, indentation + 1, cid_reverse[i])
         elif agi_object.attributes[i] is None:
             for j in range(indentation + 1):
                 result += '|   '
@@ -46,10 +45,10 @@ def translate_AGIObject(agi_object: AGIObject, indentation=0, attribute_name=str
     return result
 
 
-def print_obj(target: AGIObject or AGIList):
+def print_obj(target: AGIObject or AGIList, cid_reverse):
     if type(target) == AGIObject:
-        print(translate_AGIObject(target))
+        print(translate_AGIObject(target, cid_reverse))
     elif type(target) == AGIList:
-        print(translate_AGIList(target))
+        print(translate_AGIList(target, cid_reverse))
     else:
         assert False

@@ -1,3 +1,4 @@
+import pickle
 concepts = [
     # 基本概念
     'None',
@@ -63,7 +64,6 @@ concepts = [
     'dc::return_value',
     'dc::assert_expression',
     'dc::index',
-    'dc::child_indices',
     'dc::function_name',
     'dc::function_params',
     'dc::concept_name',
@@ -132,10 +132,8 @@ concepts = [
     'func::run_dynamic_code_object',
     'func::process_line',
     'func::solve_expression',
-    'func::child_indices_equal',
     'func::remove_one_element',
     'func::increment',
-    'func::test',
     # 博弈问题策略接口
     'interface::find_winning_determining_variables_find_variable_changing_code',
     'interface_member::winning_determining_variables',
@@ -186,12 +184,12 @@ concepts = [
 
 def generate_concept_ids(concept_names):
     concept_ids = dict()
-    for i, j in enumerate(concept_names):
-        concept_ids.update({j: i})
+    file = open('concepts.txt', 'rb')
+    concept_database = pickle.load(file)
+    file.close()
+    for concept in concept_database.concepts:
+        concept_ids.update({concept.debug_description: concept.concept_id})
     return concept_ids
 
 
-cid_of = generate_concept_ids(concepts)
-
-cid_reverse = dict([(i, j) for (j, i) in cid_of.items()])
 
