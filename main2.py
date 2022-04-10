@@ -6,8 +6,8 @@ from AGI.code_driver import run_dynamic_code
 from AGI.struct import AGIObject, AGIList
 from AGI.objects import obj
 from AGI.translate_struct import print_obj
+from AGI.code_getter import get_dynamic_code
 import os
-
 
 cid_of, cid_reverse = summon_concepts('Concept/concepts.txt')
 dir_list = os.listdir('Formatted')
@@ -22,8 +22,9 @@ try:
             print('Now it\'s red team\'s turn to go!')
         elif whose_turn.concept_id == cid_of['xq::black_team']:
             print('Now it\'s black team\'s turn to go!')
-        current_chessboard = run_dynamic_code(cid_of['func::operation_func'],
-                                              AGIList([current_chessboard, whose_turn]), cid_of, dir_list)
+        current_chessboard = run_dynamic_code(cid_of['func::run_dynamic_code_object'],
+                                              AGIList([get_dynamic_code(cid_of['func::operation_func']),
+                                                       AGIList([current_chessboard, whose_turn])]), cid_of, dir_list)
         end_game = run_dynamic_code(cid_of['func::end_game_func'], AGIList([current_chessboard]), cid_of, dir_list)
         if end_game.concept_id == cid_of['True']:
             print_chessboard(current_chessboard, cid_of, cid_reverse)

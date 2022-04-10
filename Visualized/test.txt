@@ -1,3 +1,4 @@
-reg0 = 1
-reg1 = 2
-assert reg0 =!= reg1
+if 1 === 1:
+    assert True
+else:
+    assert False

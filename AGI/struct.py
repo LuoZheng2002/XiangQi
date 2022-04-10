@@ -12,7 +12,7 @@ class AGIObject:
 
     def agi_list(self):
         if len(self.attributes) != 1:
-            raise AGIException('Trying to get list from AGIObject but AGIObject has more than one attribute')
+            raise StructureException('Trying to get list from AGIObject but AGIObject has more than one attribute')
         for i in self.attributes.keys():
             if self.attributes[i] is None:
                 self.attributes[i] = AGIList()

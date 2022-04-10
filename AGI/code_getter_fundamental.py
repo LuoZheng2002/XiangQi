@@ -25,8 +25,9 @@ def get_most_hardcoded_code(code_id, cid_of):
     return None
 
 
-def is_code_dynamic(code_id: int, code_dir, cid_of) -> bool:
-    dynamic = str(code_id) + '.txt' in os.listdir(code_dir)
+def is_code_dynamic(code_id: int, dir_list, cid_of) -> bool:
+    assert dir_list
+    dynamic = str(code_id) + '.txt' in dir_list
     hardcoded = get_most_hardcoded_code(code_id, cid_of) is not None or \
         code_id == cid_of['func::is_code_dynamic'] or \
         code_id == cid_of['func::run_hardcoded_code']

@@ -1,0 +1,18 @@
+reg0 &= 'dc::runtime_inputs'
+for i in range(input1.size):
+    reg1 &= 'dc::input_container'
+    reg1.'dc::index' &= i
+    reg1.'value' &= input1[i]
+    reg0.append(reg1)
+reg2 &= 'dc::runtime_registers'
+reg3 &= 'dc::runtime_iterators'
+reg4 &= 'dc::runtime_memory'
+reg4.'dc::runtime_inputs' &= reg0
+reg4.'dc::runtime_registers' &= reg2
+reg4.'dc::runtime_iterators' &= reg3
+for j in range(input0.size):
+    reg5 &= 'func::process_line'(input0[j], reg4)
+    assert reg5 != 'dc::line_signal_break'
+    if reg5 == 'dc::line_signal_return':
+        return reg5.'dc::line_return_value'
+return 'None'

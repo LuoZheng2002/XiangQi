@@ -205,7 +205,7 @@ def translate_line(line: AGIObject, cid_of, cid_reverse, indentation_count=0) ->
         for provided_line in provided_block_list.value:
             result += translate_line(provided_line, cid_of, cid_reverse, indentation_count + 1)
         return result
-    if line.concept_id == cid_of['dcr::call_none_return_function']:
+    if line.concept_id == cid_of['dcr::call_none_return_func']:
         result = "'" + cid_reverse[line.attributes[cid_of['dc::function_name']].concept_id] + "'("
         function_params = line.attributes[cid_of['dc::function_params']].value
         for function_param in function_params:

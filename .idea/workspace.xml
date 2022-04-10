@@ -5,32 +5,28 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4477cdc3-3a80-447f-ae63-b02b31341c4e" name="Changes" comment="checkpoint">
-      <change afterPath="$PROJECT_DIR$/Formatted/114.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Formatted/115.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Formatted/116.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Formatted/164.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Formatted/165.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Formatted/166.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Formatted/167.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Game/structures.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Visualized/end_game_benefit.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Visualized/end_game_func.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Visualized/operation_func.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Visualized/who_is_next_func.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/XiangQi/chessboard_browser.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/XiangQi/instance.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Formatted/119.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Formatted/120.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Formatted/121.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Visualized/process_line.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Visualized/solve_expression.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/main2.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AGI/code_browser.py" beforeDir="false" afterPath="$PROJECT_DIR$/AGI/code_browser.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AGI/code_driver.py" beforeDir="false" afterPath="$PROJECT_DIR$/AGI/code_driver.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AGI/code_generator.py" beforeDir="false" afterPath="$PROJECT_DIR$/AGI/code_generator.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AGI/code_getter.py" beforeDir="false" afterPath="$PROJECT_DIR$/AGI/code_getter.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AGI/code_getter_fundamental.py" beforeDir="false" afterPath="$PROJECT_DIR$/AGI/code_getter_fundamental.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AGI/struct.py" beforeDir="false" afterPath="$PROJECT_DIR$/AGI/struct.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Concept/concepts.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Concept/concepts.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Formatted/126.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Visualized/batch_logic_and.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Visualized/batch_logic_and.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Visualized/batch_logic_or.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Visualized/batch_logic_or.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Formatted/108.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Formatted/108.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Formatted/114.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Formatted/114.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Hardcoded/is_code_dynamic_func.py" beforeDir="false" afterPath="$PROJECT_DIR$/Hardcoded/is_code_dynamic_func.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Hardcoded/run_hardcoded_code.py" beforeDir="false" afterPath="$PROJECT_DIR$/Hardcoded/run_hardcoded_code_func.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Visualized/compare_natural_numbers.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Visualized/compare_natural_numbers.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Visualized/run_dynamic_code_object.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Visualized/run_dynamic_code_object.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Visualized/test.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Visualized/test.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test_run.py" beforeDir="false" afterPath="$PROJECT_DIR$/test_run.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -67,7 +63,7 @@
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/test_run.py" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/main2.py" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -75,7 +71,7 @@
       <recent name="C:\Users\luo20\Desktop\AGI Project\Game3\Exception" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.main">
+  <component name="RunManager" selected="Python.main2">
     <configuration name="concept_control" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="Game3" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -110,6 +106,27 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="main2" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="Game3" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="C:\Users\luo20\anaconda3\envs\Game3\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main2.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -184,6 +201,7 @@
     <list>
       <item itemvalue="Python.main" />
       <item itemvalue="Python.test" />
+      <item itemvalue="Python.main2" />
       <item itemvalue="Python.test_run" />
       <item itemvalue="Python.test2" />
       <item itemvalue="Python.concept_control" />
@@ -212,7 +230,14 @@
       <option name="project" value="LOCAL" />
       <updated>1649563576934</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="checkpoint">
+      <created>1649576422111</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1649576422111</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

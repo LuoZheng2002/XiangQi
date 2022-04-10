@@ -1,0 +1,133 @@
+if (input0 == 'dcr::assign' or input0 == 'dcr::assign_as_reference'):
+    reg0 &= input0.'dc::left_value'
+    reg1 &= 'func::solve_expression'(input0.'dc::right_value', input1, None)
+    if reg0 == 'dcr::reg':
+        reg2 &= reg0.'dc::index'
+        if not input1.'dc::runtime_registers'.exist(target.'dc::index' === reg2):
+            reg3 &= 'dc::register_container'
+            reg3.'dc::index' &= reg2
+            if input0 == 'dcr::assign':
+                reg3.'value' = reg1
+            else:
+                reg3.'value' &= reg1
+            input1.'dc::runtime_registers'.append(reg3)
+        else:
+            reg3 &= input1.'dc::runtime_registers'.find(target.'dc::index' === reg2)
+            if input0 == 'dcr::assign':
+                reg3.'value' = reg1
+            else:
+                reg3.'value' &= reg1
+    elif reg0 == 'dcr::get_member':
+        reg2 &= 'func::solve_expression'(reg0.'dc::target_object', input1, None)
+        'func::set_object_member'(reg2, reg0.'dc::member_name', reg1)
+    elif reg0 == 'dcr::at':
+        reg2 &= 'func::solve_expression'(reg0.'dc::target_list', input1, None)
+        reg3 &= 'func::solve_expression'(reg0.'dc::index', input1, None)
+        reg2[reg3] &= reg1
+    else:
+        assert False
+    return 'dc::line_signal_normal'
+if input0 == 'dcr::return':
+    reg0 &= 'dc::line_signal_return'
+    reg0.'dc::line_return_value' &= 'func::solve_expression'(input0.'dc::return_value', input1, None)
+    return reg0
+if input0 == 'dcr::for':
+    reg0 &= 'func::solve_expression'(input0.'dc::end_value', input1, None)
+    if not input1.'dc::runtime_iterators'.exist(target.'dc::index' === input0.'dc::iterator_index'):
+        reg1 &= 'dc::iterator_container'
+        reg1.'dc::index' &= input0.'dc::iterator_index'
+        reg1.'value' &= 0
+        input1.'dc::runtime_iterators'.append(reg1)
+    else:
+        reg1 &= input1.'dc::runtime_iterators'.find(target.'dc::index' === input0.'dc::iterator_index')
+        reg1.'value' &= 0
+    for i in range(reg0):
+        for j in range(input0.'dc::for_block'.size):
+            reg2 &= 'func::process_line'(input0.'dc::for_block'[j], input1)
+            if reg2 == 'dc::line_signal_break':
+                return 'dc::line_signal_normal'
+            elif reg2 == 'dc::line_signal_return':
+                return reg2
+        reg1.'value' &= (reg1.'value' + 1)
+    return 'dc::line_signal_normal'
+if input0 == 'dcr::while':
+    while 'func::solve_expression'(input0.'dc::expression_for_judging', input1, None):
+        for i in range(input0.'dc::while_block'.size):
+            reg0 &= 'func::process_line'(input0.'dc::while_block'[i], input1)
+            if reg0 == 'dc::line_signal_break':
+                return 'dc::line_signal_normal'
+            elif reg0 == 'dc::line_signal_return':
+                return reg0
+    return 'dc::line_signal_normal'
+if input0 == 'dcr::break':
+    return 'dc::line_signal_break'
+if input0 == 'dcr::if':
+    if 'func::solve_expression'(input0.'dc::expression_for_judging', input1, None):
+        for i in range(input0.'dc::if_block'.size):
+            reg0 &= 'func::process_line'(input0.'dc::if_block'[i], input1)
+            if reg0 == 'dc::line_signal_break':
+                return 'dc::line_signal_break'
+            if reg0 == 'dc::line_signal_return':
+                return reg0
+        return 'dc::line_signal_normal'
+    else:
+        for i in range(input0.'dc::elif_modules'.size):
+            if 'func::solve_expression'(input0.'dc::elif_modules'[i].'dc::expression_for_judging', input1, None):
+                reg0 &= input0.'dc::elif_modules'[i].'dc::elif_block'
+                for j in range(reg0.size):
+                    reg1 &= 'func::process_line'(reg0[j], input1)
+                    if reg1 == 'dc::line_signal_break':
+                        return 'dc::line_signal_break'
+                    elif reg1 == 'dc::line_signal_return':
+                        return reg1
+        reg2 &= input0.'dc::else_block'
+        for k in range(input0.'dc::else_block'.size):
+            reg3 &= 'func::process_line'(reg2[k], input1)
+            if reg3 == 'dc::line_signal_break':
+                return 'dc::line_signal_break'
+            elif reg3 == 'dc::line_signal_return':
+                return reg3
+        return 'dc::line_signal_normal'
+if input0 == 'dcr::assert':
+    assert 'func::solve_expression'(input0.'dc::assert_expression', input1, None)
+    return 'dc::line_signal_normal'
+if input0 == 'dcr::append':
+    reg0 &= 'func::solve_expression'(input0.'dc::target_list', input1, None)
+    reg1 &= 'func::solve_expression'(input0.'dc::element', input1, None)
+    reg0.append(reg1)
+    return 'dc::line_signal_normal'
+if input0 == 'dcr::remove':
+    reg0 &= 'func::solve_expression'(input0.'dc::target_list', input1, None)
+    while True:
+        reg1 &= 'func::remove_one_element'(input0.'dc::expression_for_constraint', input1, reg0)
+        if not reg1:
+            break
+    return 'dc::line_signal_normal'
+if input0 == 'dcr::request':
+    assert input0.'dc::requested_registers'.size >= 1
+    for i in range(input0.'dc::requested_registers'.size):
+        reg0 &= input0.'dc::requested_registers'[i]
+        assert not input1.'dc::runtime_registers'.exist(target.'dc::index' === reg0)
+        reg1 &= 'dc::register_container'
+        reg1.'dc::index' &= reg0
+        reg1.'value' &= 'func::get_input_object'()
+        input1.'dc::runtime_registers'.append(reg1)
+    reg2 &= input0.'dc::provided_block'
+    for j in range(reg2.size):
+        reg3 &= 'func::process_line'(reg2[j], input1)
+        assert reg3 == 'dc::line_signal_normal'
+    assert 'func::solve_expression'(input0.'dc::expression_for_constraint', input1, None)
+    return 'dc::line_signal_normal'
+if input0 == 'dcr::call_none_return_func':
+    reg0 &= input0.'dc::function_name'
+    reg1 &= input0.'dc::function_params'
+    reg2 &= 'list'
+    for i in range(reg1.size):
+        reg2.append('func::solve_expression'(reg1[i], input1, None))
+    if 'func::is_code_dynamic'(reg0):
+        reg3 &= 'func::run_dynamic_code_object'('func::get_dynamic_code_object'(reg0), reg2)
+    else:
+        reg3 &= 'func::run_hardcoded_code'(reg0, reg2)
+    assert reg3 == None
+    return 'dc::line_signal_normal'
+assert False

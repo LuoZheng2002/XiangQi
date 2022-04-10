@@ -443,7 +443,7 @@ def generate_block(block: list, indentation_count: int, is_sub_block: bool, cid_
         elif line_pieces[0] == 'break':
             assert len(line_pieces) == 1
             line_object = AGIObject(cid_of['dcr::break'],
-                                    {cid_of['dc::line_index']: num_obj(real_line_index, cid_of)})
+                                    {cid_of['dc::line_index']: num_obj(real_line_index[0], cid_of)})
             real_line_index[0] += 1
             lines.append(line_object)
             line_index += 1
@@ -584,11 +584,11 @@ def generate_block(block: list, indentation_count: int, is_sub_block: bool, cid_
                 if sub_pieces:
                     code_params.append(generate_expression(sub_pieces, cid_of))
 
-            line_object = AGIObject(cid_of['dcr::call_none_return_function'],
+            line_object = AGIObject(cid_of['dcr::call_none_return_func'],
                                     {cid_of['dc::function_name']: code_object,
                                      cid_of['dc::function_params']: AGIList(code_params),
-                                     cid_of['dc::line_index']: num_obj(real_line_index, cid_of)})
-            real_line_index += 1
+                                     cid_of['dc::line_index']: num_obj(real_line_index[0], cid_of)})
+            real_line_index[0] += 1
             lines.append(line_object)
             line_index += 1
         else:
