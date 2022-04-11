@@ -5,28 +5,33 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4477cdc3-3a80-447f-ae63-b02b31341c4e" name="Changes" comment="checkpoint">
-      <change afterPath="$PROJECT_DIR$/Formatted/119.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Formatted/120.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Formatted/121.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Visualized/process_line.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Visualized/solve_expression.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/main2.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/AGI/dynamic_code_getter.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Formatted/122.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Formatted/168.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Formatted/171.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Hardcoded/code_simulator.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Visualized/increment.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Visualized/process_elif_modules.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Visualized/remove_one_element.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dynamic_code_manager.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AGI/code_browser.py" beforeDir="false" afterPath="$PROJECT_DIR$/AGI/code_browser.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AGI/code_driver.py" beforeDir="false" afterPath="$PROJECT_DIR$/AGI/code_driver.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AGI/code_generator.py" beforeDir="false" afterPath="$PROJECT_DIR$/AGI/code_generator.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AGI/code_getter.py" beforeDir="false" afterPath="$PROJECT_DIR$/AGI/code_getter.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AGI/code_getter.py" beforeDir="false" afterPath="$PROJECT_DIR$/AGI/hardcoded_code_getter.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AGI/code_getter_fundamental.py" beforeDir="false" afterPath="$PROJECT_DIR$/AGI/code_getter_fundamental.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AGI/struct.py" beforeDir="false" afterPath="$PROJECT_DIR$/AGI/struct.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Concept/concepts.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Concept/concepts.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Formatted/108.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Formatted/108.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Exception/dynamic_code_exception.py" beforeDir="false" afterPath="$PROJECT_DIR$/Exception/dynamic_code_exception.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Formatted/114.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Formatted/114.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Hardcoded/is_code_dynamic_func.py" beforeDir="false" afterPath="$PROJECT_DIR$/Hardcoded/is_code_dynamic_func.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Hardcoded/run_hardcoded_code.py" beforeDir="false" afterPath="$PROJECT_DIR$/Hardcoded/run_hardcoded_code_func.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Visualized/compare_natural_numbers.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Visualized/compare_natural_numbers.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Visualized/run_dynamic_code_object.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Visualized/run_dynamic_code_object.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Formatted/120.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Formatted/120.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Formatted/121.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Formatted/121.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Hardcoded/unclassified.py" beforeDir="false" afterPath="$PROJECT_DIR$/Hardcoded/unclassified.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Visualized/process_line.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Visualized/process_line.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Visualized/solve_expression.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Visualized/solve_expression.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Visualized/test.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Visualized/test.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/XiangQi/instance.py" beforeDir="false" afterPath="$PROJECT_DIR$/XiangQi/instance.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main2.py" beforeDir="false" afterPath="$PROJECT_DIR$/main2.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test2.py" beforeDir="false" afterPath="$PROJECT_DIR$/test2.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -237,7 +242,14 @@
       <option name="project" value="LOCAL" />
       <updated>1649576422111</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="checkpoint">
+      <created>1649587769270</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1649587769270</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

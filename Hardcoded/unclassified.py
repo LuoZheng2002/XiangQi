@@ -4,13 +4,17 @@ from AGI.objects import obj, num_obj, to_integer
 from AGI.concept_instance_creator import create_concept_instance
 from Exception.hardcoded_code_exception import HardcodedCodeException
 
+
 def compare_concepts(params: AGIList, cid_of) -> AGIObject:
     if params.size() != 2:
         raise AGIException('Function should receive 2 params.')
     param1 = params.get_element(0)
     param2 = params.get_element(1)
-    if type(param1) != AGIObject or type(param2) != AGIObject:
-        raise AGIException('Parameters should be AGIObjects.')
+    if not ((type(param1) == AGIObject or type(param1) == AGIList) and
+            (type(param2) == AGIObject or type(param2) == AGIList)):
+        raise HardcodedCodeException('Parameters should be AGIObjects.', 'func::compare_concepts')
+    if type(param1) == AGIList or type(param2) == AGIList:
+        return AGIObject(cid_of['False'], dict())
     if param1.concept_id == param2.concept_id:
         return AGIObject(cid_of['True'], dict())
     else:
@@ -179,7 +183,8 @@ def get_object_member_func(params: AGIList, cid_of) -> AGIObject:
     target_object = params.get_element(0)
     member_object = params.get_element(1)
     assert type(target_object) == AGIObject and type(member_object) == AGIObject
-    assert member_object.concept_id in target_object.attributes.keys()
+    if not member_object.concept_id in target_object.attributes.keys():
+        raise HardcodedCodeException('Can not find target object\'s member!', 'func::get_object_member')
     return target_object.attributes[member_object.concept_id]
 
 

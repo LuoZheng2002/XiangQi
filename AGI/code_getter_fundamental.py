@@ -1,6 +1,7 @@
 from Hardcoded import unclassified
 from AGI.struct import AGIObject
 from Exception.dynamic_code_exception import ExpressionException
+from Hardcoded import code_simulator
 import os
 
 
@@ -19,15 +20,17 @@ def get_most_hardcoded_code(code_id, cid_of):
         cid_of['func::remove_element_by_index']: unclassified.remove_element_by_index,
         cid_of['func::get_input_object']: unclassified.get_input_object,
         cid_of['func::create_concept_instance']: unclassified.create_concept_instance_func,
+        cid_of['func::get_dynamic_code_object']: code_simulator.get_dynamic_code_object,
+        cid_of['func::remove_element_by_index']: code_simulator.remove_element_by_index,
     }
     if code_id in hardcoded_code_dict:
         return hardcoded_code_dict[code_id]
     return None
 
 
-def is_code_dynamic(code_id: int, dir_list, cid_of) -> bool:
-    assert dir_list
-    dynamic = str(code_id) + '.txt' in dir_list
+def is_code_dynamic(code_id: int, dcd, cid_of) -> bool:
+    assert dcd.dir_list
+    dynamic = str(code_id) + '.txt' in dcd.dir_list
     hardcoded = get_most_hardcoded_code(code_id, cid_of) is not None or \
         code_id == cid_of['func::is_code_dynamic'] or \
         code_id == cid_of['func::run_hardcoded_code']

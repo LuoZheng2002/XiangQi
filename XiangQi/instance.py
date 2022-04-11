@@ -1,6 +1,6 @@
 from AGI.objects import num_obj
 from Game.structures import *
-from AGI.code_getter import get_dynamic_code
+
 
 def vector_object(numbers, cid_of):
     value = list()
@@ -68,14 +68,14 @@ def create_xq_teams(cid_of):
     return teams
 
 
-def create_xq_game(cid_of):
-    operation_func = get_dynamic_code(cid_of['func::operation_func'])
+def create_xq_game(cid_of, dcd):
+    operation_func = dcd.get_code(cid_of['func::operation_func'])
     occupations = [occupation_object('xq::player_occupation', operation_func, cid_of)]
-    who_is_next_func = get_dynamic_code(cid_of['func::who_is_next_func'])
+    who_is_next_func = dcd.get_code(cid_of['func::who_is_next_func'])
     rule = rule_object(AGIList(create_xq_teams(cid_of)), AGIList(occupations),
                        who_is_next_func, obj('xq::red_team', cid_of), cid_of)
-    end_game_func = get_dynamic_code(cid_of['func::end_game_func'])
-    benefit_func = get_dynamic_code(cid_of['func::end_game_benefit'])
+    end_game_func = dcd.get_code(cid_of['func::end_game_func'])
+    benefit_func = dcd.get_code(cid_of['func::end_game_benefit'])
     end_game_benefits = [end_game_benefit('xq::player_benefit', benefit_func, cid_of)]
     winning_criteria = winning_criteria_object(end_game_func, AGIList(end_game_benefits), cid_of)
     elephant_chess = game_object(create_xq_chessboard(cid_of), rule, winning_criteria, cid_of)

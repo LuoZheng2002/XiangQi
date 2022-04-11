@@ -1,0 +1,11 @@
+for i in range(input0.size):
+    if 'func::solve_expression'(input0[i].'dc::expression_for_judging', input1, None):
+        reg0 &= input0[i].'dc::elif_block'
+        for j in range(reg0.size):
+            reg1 &= 'func::process_line'(reg0[j], input1)
+            if reg1 == 'dc::line_signal_break':
+                return 'dc::line_signal_break'
+            elif reg1 == 'dc::line_signal_return':
+                return reg1
+        return 'dc::elif_module_executed'
+return 'dc::line_signal_normal'
