@@ -3,6 +3,7 @@ from AGI.objects import to_integer
 import pickle
 from AGI.code_generator import number_to_letter
 from AGI.translate_struct import print_obj
+from AGI.dynamic_code_getter import get_dynamic_code
 add_line_index = True
 
 
@@ -86,7 +87,7 @@ def translate_expression(expr: AGIObject, cid_of, cid_reverse) -> str:
     assert False
 
 
-def add_indentation(line: str, indentation_count: int, line_index=0) -> str:
+def add_indentation(line: str, indentation_count: int, line_index=0, new_line=True) -> str:
     for i in range(indentation_count):
         line = '    ' + line
     if add_line_index:
@@ -94,7 +95,8 @@ def add_indentation(line: str, indentation_count: int, line_index=0) -> str:
             line = '        ' + line
         else:
             line = str(line_index).ljust(8, ' ') + line
-    line += '\n'
+    if new_line:
+        line += '\n'
     return line
 
 
@@ -230,4 +232,7 @@ def translate_code(code_name: str or int, cid_of, cid_reverse):
     # print_obj(code, cid_reverse)
     # print('visualized:')
     print(result)
+
+
+
 

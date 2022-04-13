@@ -13,9 +13,11 @@ from AGI.translate_struct import print_obj
 from Hardcoded.is_code_dynamic_func import is_code_dynamic_func
 from Hardcoded.run_hardcoded_code_func import run_hardcoded_code_func
 from Hardcoded.code_simulator import get_dynamic_code_object
+from AGI.dynamic_code_debugger import Debugger, global_given_line, global_given_function
+from debug import debug_dynamic_code
 
 
-def run_hardcoded_code(code_id, input_params: AGIList, cid_of, dcd):
+def run_hardcoded_code(code_id, input_params: AGIList, cid_of, cid_reverse, dcd):
     if code_id == cid_of['func::is_code_dynamic']:
         result = is_code_dynamic_func(input_params, cid_of, dcd)
     elif code_id == cid_of['func::run_hardcoded_code']:
@@ -37,15 +39,16 @@ class LineSignal:
         self.signal_value = signal_value
 
 
-def find_element(target_list: AGIList, expr, runtime_memory, cid_of, dcd) -> int:
+def find_element(target_list: AGIList, expr, runtime_memory, cid_of, cid_reverse, dcd, debugger) -> int:
     assert type(target_list) == AGIList
     for i, element in enumerate(target_list.value):
-        if solve_expression(expr, runtime_memory, cid_of, dcd, element).concept_id == cid_of['True']:
+        if solve_expression(expr, runtime_memory, cid_of, cid_reverse, dcd, debugger, element).concept_id == cid_of[
+            'True']:
             return i
     return -1
 
 
-def solve_expression(expr: AGIObject, runtime_memory: RuntimeMemory, cid_of, dcd,
+def solve_expression(expr: AGIObject, runtime_memory: RuntimeMemory, cid_of, cid_reverse, dcd, debugger,
                      target=None) -> AGIObject or AGIList:
     if expr.concept_id == cid_of['dcr::input']:
         index = to_integer(expr.attributes[cid_of['dc::index']], cid_of)
@@ -64,16 +67,20 @@ def solve_expression(expr: AGIObject, runtime_memory: RuntimeMemory, cid_of, dcd
         code_id = expr.attributes[cid_of['dc::function_name']].concept_id
         function_params = list()
         for param in expr.attributes[cid_of['dc::function_params']].value:
-            function_params.append(solve_expression(param, runtime_memory, cid_of, dcd, target))
+            function_params.append(solve_expression(param, runtime_memory, cid_of, cid_reverse, dcd, debugger, target))
         function_params = AGIList(function_params)
         if is_code_dynamic(code_id, dcd, cid_of):
             try:
-                result = run_dynamic_code(code_id, function_params, cid_of, dcd)
+                if type(debugger.debug_signal) == int or debugger.debug_signal == 'step_over' or debugger.debug_signal == 'step_out':
+                    nDebug = True
+                else:
+                    nDebug = False
+                result = run_dynamic_code(code_id, function_params, cid_of, cid_reverse, dcd, nDebug)
             except DynamicCodeException as d:
                 raise
         else:
             try:
-                result = run_hardcoded_code(code_id, function_params, cid_of, dcd)
+                result = run_hardcoded_code(code_id, function_params, cid_of, cid_reverse, dcd)
             except HardcodedCodeException as h:
                 raise
         return result
@@ -81,7 +88,7 @@ def solve_expression(expr: AGIObject, runtime_memory: RuntimeMemory, cid_of, dcd
         return create_concept_instance(expr.attributes[cid_of['dc::concept_name']].concept_id, cid_of)
     if expr.concept_id == cid_of['dcr::size']:
         target_list = solve_expression(expr.attributes[cid_of['dc::target_list']],
-                                       runtime_memory, cid_of, dcd, target)
+                                       runtime_memory, cid_of, cid_reverse, dcd, debugger, target)
         if type(target_list) == AGIObject:
             target_list = target_list.agi_list()
         else:
@@ -89,16 +96,16 @@ def solve_expression(expr: AGIObject, runtime_memory: RuntimeMemory, cid_of, dcd
         return num_obj(target_list.size(), cid_of)
     if expr.concept_id == cid_of['dcr::get_member']:
         target_object = solve_expression(expr.attributes[cid_of['dc::target_object']],
-                                         runtime_memory, cid_of, dcd, target)
+                                         runtime_memory, cid_of, cid_reverse, dcd, debugger, target)
         member_id = expr.attributes[cid_of['dc::member_name']].concept_id
         if member_id not in target_object.attributes.keys():
             raise ExpressionException('Can not get target object\'s member!')
         return target_object.attributes[member_id]
     if expr.concept_id == cid_of['dcr::at']:
         target_list = solve_expression(expr.attributes[cid_of['dc::target_list']],
-                                       runtime_memory, cid_of, dcd, target)
+                                       runtime_memory, cid_of, cid_reverse, dcd, debugger, target)
         index = to_integer(solve_expression(expr.attributes[cid_of['dc::element_index']],
-                                            runtime_memory, cid_of, dcd, target), cid_of)
+                                            runtime_memory, cid_of, cid_reverse, dcd, debugger, target), cid_of)
         if type(target_list) == AGIObject:
             target_list = target_list.agi_list()
         else:
@@ -107,7 +114,7 @@ def solve_expression(expr: AGIObject, runtime_memory: RuntimeMemory, cid_of, dcd
     if expr.concept_id == cid_of['dcr::find'] or \
             expr.concept_id == cid_of['dcr::exist'] or expr.concept_id == cid_of['dcr::count']:
         target_list = solve_expression(expr.attributes[cid_of['dc::target_list']],
-                                       runtime_memory, cid_of, dcd, target)
+                                       runtime_memory, cid_of, cid_reverse, dcd, debugger, target)
         if type(target_list) == AGIObject:
             target_list = target_list.agi_list()
         else:
@@ -115,7 +122,8 @@ def solve_expression(expr: AGIObject, runtime_memory: RuntimeMemory, cid_of, dcd
         count = 0
         for element in target_list.value:
             if solve_expression(expr.attributes[cid_of['dc::expression_for_constraint']],
-                                runtime_memory, cid_of, dcd, element).concept_id == cid_of['True']:
+                                runtime_memory, cid_of, cid_reverse, dcd, debugger, element).concept_id == cid_of[
+                'True']:
                 if expr.concept_id == cid_of['dcr::find']:
                     return element
                 if expr.concept_id == cid_of['dcr::exist']:
@@ -135,10 +143,24 @@ def solve_expression(expr: AGIObject, runtime_memory: RuntimeMemory, cid_of, dcd
     raise ExpressionException('Unknown head of expression!')
 
 
-def process_line(line: AGIObject, runtime_memory: RuntimeMemory, cid_of, dcd) -> LineSignal:
+def process_line(line: AGIObject, runtime_memory: RuntimeMemory, cid_of, cid_reverse, dcd, debugger) -> LineSignal:
     try:
+        if (debug_dynamic_code and debugger.debug_signal != 'step_out') or global_given_function[0] == debugger.code_id:
+            line_index = to_integer(line.attributes[cid_of['dc::line_index']], cid_of)
+            if (type(debugger.debug_signal) != int and debugger.debug_signal != 'step_out') \
+                    or debugger.debug_signal == line_index \
+                    or (global_given_function[0] == debugger.code_id and global_given_line[0] == line_index):
+                print('Current function: \'' + cid_reverse[debugger.code_id] + '\'')
+                for i in range(line_index - 4, line_index + 5):
+                    if 1 <= i <= len(debugger.lines):
+                        if i == line_index:
+                            debugger.print_single_line(i, True)
+                        else:
+                            debugger.print_single_line(i, False)
+                debugger.get_debug_input()
         if line.concept_id == cid_of['dcr::assign'] or line.concept_id == cid_of['dcr::assign_as_reference']:
-            rhs_value = solve_expression(line.attributes[cid_of['dc::right_value']], runtime_memory, cid_of, dcd)
+            rhs_value = solve_expression(line.attributes[cid_of['dc::right_value']], runtime_memory, cid_of,
+                                         cid_reverse, dcd, debugger)
             lhs = line.attributes[cid_of['dc::left_value']]
             if lhs.concept_id == cid_of['dcr::reg']:
                 reg_index = to_integer(lhs.attributes[cid_of['dc::index']], cid_of)
@@ -153,10 +175,10 @@ def process_line(line: AGIObject, runtime_memory: RuntimeMemory, cid_of, dcd) ->
                     else:
                         runtime_memory.set_reg(reg_index, rhs_value)
             elif lhs.concept_id == cid_of['dcr::at']:
-                target_list = solve_expression(lhs.attributes[cid_of['dc::target_list']], runtime_memory, cid_of,
-                                               dcd)
-                element_index = solve_expression(lhs.attributes[cid_of['dc::element_index']], runtime_memory, cid_of,
-                                                 dcd)
+                target_list = solve_expression(lhs.attributes[cid_of['dc::target_list']],
+                                               runtime_memory, cid_of, cid_reverse, dcd, debugger)
+                element_index = solve_expression(lhs.attributes[cid_of['dc::element_index']],
+                                                 runtime_memory, cid_of, cid_reverse, dcd, debugger)
                 if type(target_list) == AGIObject:
                     target_list = target_list.agi_list()
                 else:
@@ -166,8 +188,8 @@ def process_line(line: AGIObject, runtime_memory: RuntimeMemory, cid_of, dcd) ->
                 else:
                     target_list.set_value(to_integer(element_index, cid_of), rhs_value)
             elif lhs.concept_id == cid_of['dcr::get_member']:
-                target_object = solve_expression(lhs.attributes[cid_of['dc::target_object']], runtime_memory, cid_of,
-                                                 dcd)
+                target_object = solve_expression(lhs.attributes[cid_of['dc::target_object']],
+                                                 runtime_memory, cid_of, cid_reverse, dcd, debugger)
                 assert type(target_object) == AGIObject
                 member_id = lhs.attributes[cid_of['dc::member_name']].concept_id
                 assert member_id in target_object.attributes.keys()
@@ -177,12 +199,12 @@ def process_line(line: AGIObject, runtime_memory: RuntimeMemory, cid_of, dcd) ->
                     target_object.attributes[member_id] = rhs_value
             return LineSignal('normal')
         if line.concept_id == cid_of['dcr::return']:
-            return_value = solve_expression(line.attributes[cid_of['dc::return_value']], runtime_memory, cid_of,
-                                            dcd)
+            return_value = solve_expression(line.attributes[cid_of['dc::return_value']],
+                                            runtime_memory, cid_of, cid_reverse, dcd, debugger)
             return LineSignal('return', return_value)
         if line.concept_id == cid_of['dcr::assert']:
             assert_expression = solve_expression(line.attributes[cid_of['dc::assert_expression']],
-                                                 runtime_memory, cid_of, dcd)
+                                                 runtime_memory, cid_of, cid_reverse, dcd, debugger)
             if assert_expression.concept_id != cid_of['True']:
                 raise LineException(to_integer(line.attributes[cid_of['dc::line_index']], cid_of),
                                     'Assertion Failed in Dynamic Code.')
@@ -195,11 +217,11 @@ def process_line(line: AGIObject, runtime_memory: RuntimeMemory, cid_of, dcd) ->
             else:
                 iterator = runtime_memory.create_iterator(iter_id, 0)
             end_value = to_integer(solve_expression(line.attributes[cid_of['dc::end_value']],
-                                                    runtime_memory, cid_of, dcd), cid_of)
+                                                    runtime_memory, cid_of, cid_reverse, dcd, debugger), cid_of)
             for i in range(end_value):
                 for for_line in line.attributes[cid_of['dc::for_block']].agi_list().value:
                     try:
-                        line_signal = process_line(for_line, runtime_memory, cid_of, dcd)
+                        line_signal = process_line(for_line, runtime_memory, cid_of, cid_reverse, dcd, debugger)
                     except DynamicCodeException as d:
                         d.line_cache = to_integer(for_line.attributes[cid_of['dc::line_index']], cid_of)
                         raise
@@ -215,11 +237,11 @@ def process_line(line: AGIObject, runtime_memory: RuntimeMemory, cid_of, dcd) ->
         if line.concept_id == cid_of['dcr::while']:
             loop_count = 0
             while solve_expression(line.attributes[cid_of['dc::expression_for_judging']],
-                                   runtime_memory, cid_of, dcd).concept_id == cid_of['True']:
+                                   runtime_memory, cid_of, cid_reverse, dcd, debugger).concept_id == cid_of['True']:
                 loop_count += 1
                 for while_line in line.attributes[cid_of['dc::while_block']].agi_list().value:
                     try:
-                        line_signal = process_line(while_line, runtime_memory, cid_of, dcd)
+                        line_signal = process_line(while_line, runtime_memory, cid_of, cid_reverse, dcd, debugger)
                     except DynamicCodeException as d:
                         d.line_cache = to_integer(while_line.attributes[cid_of['dc::line_index']], cid_of)
                         raise
@@ -237,11 +259,11 @@ def process_line(line: AGIObject, runtime_memory: RuntimeMemory, cid_of, dcd) ->
             return LineSignal('break')
         if line.concept_id == cid_of['dcr::if']:
             expression_for_judging = solve_expression(line.attributes[cid_of['dc::expression_for_judging']],
-                                                      runtime_memory, cid_of, dcd)
+                                                      runtime_memory, cid_of, cid_reverse, dcd, debugger)
             if expression_for_judging.concept_id == cid_of['True']:
                 for if_line in line.attributes[cid_of['dc::if_block']].agi_list().value:
                     try:
-                        line_signal = process_line(if_line, runtime_memory, cid_of, dcd)
+                        line_signal = process_line(if_line, runtime_memory, cid_of, cid_reverse, dcd, debugger)
                     except DynamicCodeException as d:
                         d.line_cache = to_integer(if_line.attributes[cid_of['dc::line_index']], cid_of)
                         raise
@@ -255,11 +277,12 @@ def process_line(line: AGIObject, runtime_memory: RuntimeMemory, cid_of, dcd) ->
                 elif_executed = False
                 for elif_module in line.attributes[cid_of['dc::elif_modules']].value:
                     elif_expression = solve_expression(elif_module.attributes[cid_of['dc::expression_for_judging']],
-                                                       runtime_memory, cid_of, dcd)
+                                                       runtime_memory, cid_of, cid_reverse, dcd, debugger)
                     if elif_expression.concept_id == cid_of['True']:
                         for elif_line in elif_module.attributes[cid_of['dc::elif_block']].agi_list().value:
                             try:
-                                line_signal = process_line(elif_line, runtime_memory, cid_of, dcd)
+                                line_signal = process_line(elif_line, runtime_memory, cid_of, cid_reverse, dcd,
+                                                           debugger)
                             except DynamicCodeException as d:
                                 d.line_cache = to_integer(elif_line.attributes[cid_of['dc::line_index']], cid_of)
                                 raise
@@ -274,7 +297,7 @@ def process_line(line: AGIObject, runtime_memory: RuntimeMemory, cid_of, dcd) ->
                 if not elif_executed:
                     for else_line in line.attributes[cid_of['dc::else_block']].agi_list().value:
                         try:
-                            line_signal = process_line(else_line, runtime_memory, cid_of, dcd)
+                            line_signal = process_line(else_line, runtime_memory, cid_of, cid_reverse, dcd, debugger)
                         except DynamicCodeException as d:
                             d.line_cache = to_integer(else_line.attributes[cid_of['dc::line_index']], cid_of)
                             raise
@@ -286,8 +309,10 @@ def process_line(line: AGIObject, runtime_memory: RuntimeMemory, cid_of, dcd) ->
                             return line_signal
             return LineSignal('normal')
         if line.concept_id == cid_of['dcr::append']:
-            target_list = solve_expression(line.attributes[cid_of['dc::target_list']], runtime_memory, cid_of, dcd)
-            element = solve_expression(line.attributes[cid_of['dc::element']], runtime_memory, cid_of, dcd)
+            target_list = solve_expression(line.attributes[cid_of['dc::target_list']], runtime_memory, cid_of,
+                                           cid_reverse, dcd, debugger)
+            element = solve_expression(line.attributes[cid_of['dc::element']], runtime_memory, cid_of, cid_reverse, dcd,
+                                       debugger)
             if type(target_list) == AGIObject:
                 target_list = target_list.agi_list()
             else:
@@ -295,14 +320,15 @@ def process_line(line: AGIObject, runtime_memory: RuntimeMemory, cid_of, dcd) ->
             target_list.append(element)
             return LineSignal('normal')
         if line.concept_id == cid_of['dcr::remove']:
-            target_list = solve_expression(line.attributes[cid_of['dc::target_list']], runtime_memory, cid_of, dcd)
+            target_list = solve_expression(line.attributes[cid_of['dc::target_list']], runtime_memory, cid_of,
+                                           cid_reverse, dcd, debugger)
             if type(target_list) == AGIObject:
                 target_list = target_list.agi_list()
             else:
                 assert type(target_list) == AGIList
             while True:
                 element_pos = find_element(target_list, line.attributes[cid_of['dc::expression_for_constraint']],
-                                           runtime_memory, cid_of, dcd)
+                                           runtime_memory, cid_of, cid_reverse, dcd, debugger)
                 if element_pos == -1:
                     break
                 target_list.remove(element_pos)
@@ -321,7 +347,7 @@ def process_line(line: AGIObject, runtime_memory: RuntimeMemory, cid_of, dcd) ->
                     runtime_memory.set_reg(reg_id_int, input_object)
             for provided_line in line.attributes[cid_of['dc::provided_block']].agi_list().value:
                 try:
-                    line_signal = process_line(provided_line, runtime_memory, cid_of, dcd)
+                    line_signal = process_line(provided_line, runtime_memory, cid_of, cid_reverse, dcd, debugger)
                 except DynamicCodeException as d:
                     d.line_cache = to_integer(provided_line.attributes[cid_of['dc::line_index']], cid_of)
                     raise
@@ -331,7 +357,7 @@ def process_line(line: AGIObject, runtime_memory: RuntimeMemory, cid_of, dcd) ->
                 if line_signal.signal_type == 'return':
                     return line_signal
             if solve_expression(line.attributes[cid_of['dc::expression_for_constraint']],
-                                runtime_memory, cid_of, dcd).concept_id != cid_of['True']:
+                                runtime_memory, cid_of, cid_reverse, dcd, debugger).concept_id != cid_of['True']:
                 raise LineException(to_integer(line.attributes[cid_of['dc::line_index']], cid_of),
                                     'Your inputs do not satisfy the constraints.')
             return LineSignal('normal')
@@ -339,18 +365,22 @@ def process_line(line: AGIObject, runtime_memory: RuntimeMemory, cid_of, dcd) ->
             code_id = line.attributes[cid_of['dc::function_name']].concept_id
             function_params = list()
             for param in line.attributes[cid_of['dc::function_params']].value:
-                function_params.append(solve_expression(param, runtime_memory, cid_of, dcd))
+                function_params.append(solve_expression(param, runtime_memory, cid_of, cid_reverse, dcd, debugger))
             function_params = AGIList(function_params)
             if is_code_dynamic(code_id, dcd, cid_of):
                 try:
-                    result = run_dynamic_code(code_id, function_params, cid_of, dcd)
+                    if type(debugger.debug_signal) == int or debugger.debug_signal == 'step_over' or debugger.debug_signal == 'step_out':
+                        nDebug = True
+                    else:
+                        nDebug = False
+                    result = run_dynamic_code(code_id, function_params, cid_of, cid_reverse, dcd, nDebug)
                 except DynamicCodeException as d:
                     d.line_cache = to_integer(line.attributes[cid_of['dc::line_index']], cid_of)
                     raise
 
             else:
                 try:
-                    result = run_hardcoded_code(code_id, function_params, cid_of, dcd)
+                    result = run_hardcoded_code(code_id, function_params, cid_of, cid_reverse, dcd)
                 except HardcodedCodeException as h:
                     h.line = to_integer(line.attributes[cid_of['dc::line_index']], cid_of)
                     raise
@@ -373,14 +403,17 @@ def process_line(line: AGIObject, runtime_memory: RuntimeMemory, cid_of, dcd) ->
         raise
 
 
-def run_dynamic_code(code_id: int, input_params: AGIList, cid_of, dcd) -> AGIObject:
+def run_dynamic_code(code_id: int, input_params: AGIList, cid_of, cid_reverse, dcd, nDebug=False) -> AGIObject:
     code_object = dcd.get_code(code_id)
     runtime_memory = RuntimeMemory()
     for i, input_param in enumerate(input_params.value):
         runtime_memory.inputs.append(Input(i, input_param))
+    debugger = Debugger(code_id, code_object, cid_of, cid_reverse, runtime_memory)
+    if nDebug:
+        debugger.debug_signal = 'step_out'
     for line in code_object.agi_list().value:
         try:
-            line_signal = process_line(line, runtime_memory, cid_of, dcd)
+            line_signal = process_line(line, runtime_memory, cid_of, cid_reverse, dcd, debugger)
         except LineException as l:
             raise DynamicCodeException(DynamicExceptionInfo(code_id,
                                                             input_params.value, l.line, runtime_memory), l.description)

@@ -19,30 +19,30 @@ try:
     while True:
         print('Now chessboard is:')
         print_chessboard(current_chessboard, cid_of, cid_reverse)
-        whose_turn = run_dynamic_code(cid_of['func::who_is_next_func'], AGIList([current_chessboard]), cid_of, dcd)
+        whose_turn = run_dynamic_code(cid_of['func::who_is_next_func'], AGIList([current_chessboard]), cid_of, cid_reverse, dcd)
         if whose_turn.concept_id == cid_of['xq::red_team']:
             print('Now it\'s red team\'s turn to go!')
         elif whose_turn.concept_id == cid_of['xq::black_team']:
             print('Now it\'s black team\'s turn to go!')
         chessboard = run_dynamic_code(cid_of['func::run_dynamic_code_object'],
                                       AGIList([dcd.get_code(cid_of['func::operation_func']),
-                                               AGIList([current_chessboard, whose_turn])]), cid_of, dcd)
+                                               AGIList([current_chessboard, whose_turn])]), cid_of, cid_reverse, dcd)
         # print_obj(chessboard, cid_reverse)
         # break
         current_chessboard = deepcopy(chessboard)
-        end_game = run_dynamic_code(cid_of['func::end_game_func'], AGIList([current_chessboard]), cid_of, dcd)
+        end_game = run_dynamic_code(cid_of['func::end_game_func'], AGIList([current_chessboard]), cid_of, cid_reverse, dcd)
         if end_game.concept_id == cid_of['True']:
             print_chessboard(current_chessboard, cid_of, cid_reverse)
             print('Game ended!')
             red_benefit = run_dynamic_code(cid_of['func::end_game_benefit'],
-                                           AGIList([current_chessboard, obj('xq::red_team', cid_of)]), cid_of, dcd)
+                                           AGIList([current_chessboard, obj('xq::red_team', cid_of)]), cid_of, cid_reverse, dcd)
             black_benefit = run_dynamic_code(cid_of['func::end_game_benefit'],
                                              AGIList([current_chessboard,
-                                                      obj('xq::black_team', cid_of)]), cid_of, dcd)
+                                                      obj('xq::black_team', cid_of)]), cid_of, cid_reverse, dcd)
             print('Red team\'s benefit is:')
             print_obj(red_benefit, cid_reverse)
             print('Black team\'s benefit is:')
             print_obj(black_benefit, cid_reverse)
             break
 except DynamicCodeException as d:
-    show_dynamic_code_exception(d, cid_of, cid_reverse, True)
+    show_dynamic_code_exception(d, cid_of, cid_reverse)

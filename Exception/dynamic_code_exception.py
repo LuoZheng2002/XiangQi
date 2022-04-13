@@ -97,21 +97,12 @@ def print_exception_obj(target: AGIObject or AGIList, cid_of, cid_reverse):
         assert False
 
 
-def show_dynamic_code_exception(dce: DynamicCodeException, cid_of, cid_reverse, show_object: bool):
+def show_dynamic_code_exception(dce: DynamicCodeException, cid_of, cid_reverse):
     print('Dynamic Code Exception Triggered!')
     print(dce.description)
     for process in dce.call_stacks:
         if type(process) == DynamicExceptionInfo:
             print('Process: \'' + cid_reverse[process.code_id] + "'")
-            if show_object:
-                print('Input params are:')
-                for i, param in enumerate(process.input_params):
-                    print('input' + str(i) + ':')
-                    print_exception_obj(param, cid_of, cid_reverse)
-                print('The runtime registers are:')
-                for register in process.runtime_memory.registers:
-                    print('reg' + str(register.index) + ':')
-                    print_exception_obj(register.value, cid_of, cid_reverse)
             print('The problematic line is: ' + str(process.line))
             print('The code is:')
             translate_code(process.code_id, cid_of, cid_reverse)

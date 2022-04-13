@@ -5,26 +5,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4477cdc3-3a80-447f-ae63-b02b31341c4e" name="Changes" comment="checkpoint">
-      <change afterPath="$PROJECT_DIR$/Visualized/general_game_strategy.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Visualized/think_from_how_to_win.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dynamic_simulator_inputs.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/note/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/note/strategy_end_game_benefit.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/AGI/dynamic_code_debugger.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test_debug.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AGI/struct.py" beforeDir="false" afterPath="$PROJECT_DIR$/AGI/struct.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AGI/code_browser.py" beforeDir="false" afterPath="$PROJECT_DIR$/AGI/code_browser.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AGI/code_driver.py" beforeDir="false" afterPath="$PROJECT_DIR$/AGI/code_driver.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AGI/concept_instance_creator.py" beforeDir="false" afterPath="$PROJECT_DIR$/AGI/concept_instance_creator.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Exception/dynamic_code_exception.py" beforeDir="false" afterPath="$PROJECT_DIR$/Exception/dynamic_code_exception.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Formatted/114.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Formatted/114.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Formatted/164.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Formatted/164.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Formatted/168.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Formatted/168.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Hardcoded/unclassified.py" beforeDir="false" afterPath="$PROJECT_DIR$/Hardcoded/unclassified.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Visualized/end_game_benefit.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Visualized/end_game_benefit.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Visualized/increment.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Visualized/increment.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Visualized/operation_func.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Visualized/operation_func.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Visualized/test.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Visualized/test.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/XiangQi/chessboard_browser.py" beforeDir="false" afterPath="$PROJECT_DIR$/XiangQi/chessboard_browser.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/XiangQi/instance.py" beforeDir="false" afterPath="$PROJECT_DIR$/XiangQi/instance.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Formatted/119.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Formatted/119.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Formatted/121.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Formatted/121.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Visualized/run_dynamic_code_object.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Visualized/run_dynamic_code_object.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/debug.py" beforeDir="false" afterPath="$PROJECT_DIR$/debug.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dynamic_simulator_inputs.py" beforeDir="false" afterPath="$PROJECT_DIR$/dynamic_simulator_inputs.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main2.py" beforeDir="false" afterPath="$PROJECT_DIR$/main2.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test2.py" beforeDir="false" afterPath="$PROJECT_DIR$/test2.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,7 +56,7 @@
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/main2.py" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/test_debug.py" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -69,7 +64,7 @@
       <recent name="C:\Users\luo20\Desktop\AGI Project\Game3\Exception" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.main2">
+  <component name="RunManager" selected="Python.concept_control">
     <configuration name="concept_control" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="Game3" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -175,6 +170,27 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="test_debug" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="Game3" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="C:\Users\luo20\anaconda3\envs\Game3\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/test_debug.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="test_run" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="Game3" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -197,12 +213,13 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Python.concept_control" />
-      <item itemvalue="Python.main2" />
       <item itemvalue="Python.main" />
-      <item itemvalue="Python.test2" />
       <item itemvalue="Python.test" />
+      <item itemvalue="Python.main2" />
+      <item itemvalue="Python.test_debug" />
       <item itemvalue="Python.test_run" />
+      <item itemvalue="Python.test2" />
+      <item itemvalue="Python.concept_control" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -249,7 +266,14 @@
       <option name="project" value="LOCAL" />
       <updated>1649648323498</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="checkpoint">
+      <created>1649816066998</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1649816066998</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

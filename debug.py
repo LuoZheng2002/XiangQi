@@ -1,3 +1,4 @@
+debug_dynamic_code = True
 debug_on_all = False
 debug_on = {
     'if': False,

@@ -8,7 +8,6 @@ from AGI.objects import obj
 from AGI.translate_struct import print_obj
 from dynamic_code_manager import DynamicCodeDatabase
 
-
 cid_of, cid_reverse = summon_concepts('Concept/concepts.txt')
 dcd = DynamicCodeDatabase('Formatted')
 try:
@@ -17,14 +16,16 @@ try:
     while True:
         print('Now chessboard is:')
         print_chessboard(current_chessboard, cid_of, cid_reverse)
-        whose_turn = run_dynamic_code(cid_of['func::who_is_next_func'], AGIList([current_chessboard]), cid_of, dcd)
+        whose_turn = run_dynamic_code(cid_of['func::who_is_next_func'],
+                                      AGIList([current_chessboard]), cid_of, cid_reverse, dcd, False)
         if whose_turn.concept_id == cid_of['xq::red_team']:
             print('Now it\'s red team\'s turn to go!')
         elif whose_turn.concept_id == cid_of['xq::black_team']:
             print('Now it\'s black team\'s turn to go!')
         current_chessboard = run_dynamic_code(cid_of['func::operation_func'],
-                                              AGIList([current_chessboard, whose_turn]), cid_of, dcd)
-        end_game = run_dynamic_code(cid_of['func::end_game_func'], AGIList([current_chessboard]), cid_of, dcd)
+                                              AGIList([current_chessboard, whose_turn]), cid_of, cid_reverse, dcd, False)
+        end_game = run_dynamic_code(cid_of['func::end_game_func'],
+                                    AGIList([current_chessboard]), cid_of, cid_reverse, dcd)
         if end_game.concept_id == cid_of['True']:
             print_chessboard(current_chessboard, cid_of, cid_reverse)
             print('Game ended!')
@@ -39,4 +40,4 @@ try:
             print_obj(black_benefit, cid_reverse)
             break
 except DynamicCodeException as d:
-    show_dynamic_code_exception(d, cid_of, cid_reverse, True)
+    show_dynamic_code_exception(d, cid_of, cid_reverse)

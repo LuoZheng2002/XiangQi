@@ -1,3 +1,5 @@
+from AGI.code_browser import CodeTranslator
+from AGI.dynamic_code_getter import get_dynamic_code
 from Exception.dynamic_code_exception import DynamicCodeException, show_dynamic_code_exception
 from Concept.concept_manager import summon_concepts
 from XiangQi.instance import create_xq_game
@@ -7,13 +9,13 @@ from AGI.struct import AGIObject, AGIList
 from AGI.objects import obj
 from AGI.translate_struct import print_obj
 from dynamic_code_manager import DynamicCodeDatabase
+from AGI.code_browser import CodeTranslator
 
 cid_of, cid_reverse = summon_concepts('Concept/concepts.txt')
 dcd = DynamicCodeDatabase('Formatted')
 try:
-    result = run_dynamic_code(cid_of['func::run_dynamic_code_object'],
-                              AGIList([dcd.get_code(cid_of['func::test']),
-                                       AGIList([])]), cid_of, cid_reverse, dcd)
-    print_obj(result, cid_reverse)
+    ct = CodeTranslator(get_dynamic_code(cid_of['func::operation_func']), cid_of, cid_reverse)
+    for i in range(20):
+        print(ct.translate_single_line(i + 1))
 except DynamicCodeException as d:
-    show_dynamic_code_exception(d, cid_of, cid_reverse)
+    show_dynamic_code_exception(d, cid_of, cid_reverse, True)

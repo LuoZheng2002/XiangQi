@@ -26,4 +26,5 @@ def create_concept_instance(concept_id, cid_of) -> AGIObject:
         attributes = dict()
         for i in concept_attributes_dict[concept_id]:
             attributes.update({i: None})
+
         return AGIObject(concept_id, attributes)
