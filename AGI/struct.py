@@ -32,6 +32,7 @@ class AGIList:
         if len(self.value) == index:
             self.value.append(value)
         elif len(self.value) < index:
+            assert False
             self.value += [[None] * (index - len(self.value))]
             self.value.append(value)
         else:

@@ -1,0 +1,161 @@
+目标分析的函数：
+
+if input0.'xq::pieces'.exist(target.'xq::piece_owner' != input1 and target.'xq::piece_name' == 'xq::Jiang'):
+    return 0
+return 1
+
+这是一个仅有两种返回值的函数，且返回的内容被if语句控制。
+它等价于：
+if statementA:
+    return valueA
+else:
+    return valueB
+
+暂时性地，我们只看返回值最大的一句return，然后将造成这一返回的条件找出来。
+形如(... and (... or ...) or (... and (... or ...)))这样的表达式，要使得它为True
+
+如果return在else语句里，它的条件就是not statementA and not statementB and ... and not statementN
+这里我们的目标表达式是：
+not input0.'xq::pieces'.exist(target.'xq::piece_owner' != input1 and target.'xq::piece_name' == 'xq::Jiang')
+记not后面的表达式为A
+那么我们的表达式的形式就为not A，因为没有裸露在外的and或or
+如果not后面的表达式的表达式头为exist，那么我们要找的语句就是remove，而且当exist的约束表达式为真时，remove的约束表达式可能为真。
+如果我们是红方，那么约束表达式可以具体为：
+target.'xq::piece_owner' != 'xq::red_team' and target.'xq::piece_name' == 'xq::Jiang'
+由于!=比==难分析，我们想办法将!=转化为==
+我们在棋盘中寻找所有this.'xq::pieces'中的每个元素的'xq::piece_owner'字段，找到所有可能的值
+假设可能的值为'A_team', 'B_team', 'C_team', 'xq::red_team'
+那么表达式就可以转化为：
+(target.'xq::piece_owner' == 'A_team' or
+target.'xq::piece_owner' == 'B_team' or
+target.'xq::piece_owner' == 'C_team') and target.'xq::piece_name' == 'xq::Jiang'
+当然，在这么做之前我们还得浏览operation_func中的代码是否有给任何'piece'的'xq::piece_owner'字段赋其它的值
+如果有的话就再加入到可能的值中
+如果是=!=（数值上不相等）的话情况就会复杂很多。
+
+我们在进行上述操作后发现约束表达式可改为：
+target.'xq::piece_owner' == 'xq::black_team' and target.'xq::piece_name' == 'xq::Jiang'
+
+red_team的职业的operation_func中唯一一句remove语句是：
+reg1.remove((target.'xq::piece_owner' != input1 and (target.'xq::position'[0] === reg6 and target.'xq::position'[1] === reg7)))
+其中reg1是this.'xq::pieces'的引用，因此它remove的对象数组正是我们需要remove的。
+如果要让这句语句达到我们想要的效果，我们只需将exist表达式中的内容与remove表达式中的内容取“逻辑与”即可。
+即target.'xq::piece_owner' == 'xq::black_team' and target.'xq::piece_name' == 'xq::Jiang'
+and target.'xq::piece_owner' != input1 and target.'xq::position'[0] === reg6 and target.'xq::position'[1] === reg7
+这样的target要存在
+target中被约束的变量为：
+target.'xq::piece_owner'
+target.'xq::piece_name'
+target.'xq::piece_owner'
+target.'xq::position'[0]
+target.'xq::position'[1]
+其中target.'xq::piece_owner'被约束了两次，首先看看两次约束是否矛盾
+矛盾的常见情形：
+x == 0 and x == 1
+x > 1 and x < 0
+|x| == -1
+如果式子过于复杂，判断不出矛盾，就将其看成不矛盾。
+如果暂时没有看出矛盾，就根据exist中的约束对remove中的相关变量进行约束。
+在这里就是input1 != 'xq::black_team'
+input1已经确定了为'xq::red_team'，因此该约束没有太大作用。
+
+结合上面的信息，我们确定了xq::red_team在最后一次operation期望达到的效果的必要条件：
+reg1.exist(target.'piece_owner' == 'xq::black_team' and target.'xq::piece_name' == 'Jiang'
+    and target.'xq::position'[0] === reg6 and target.'xq::position'[1] === reg7)
+其中reg6, reg7是red_team职业的operation_func中的变量
+当然，我们还需要保证这一条语句能够被触发。
+一条语句被触发的条件：
+前面的主线代码没有return语句，前面带有return的if语句不被触发。
+该语句不在if语句中，或是在if语句中且if语句被触发。
+
+在象棋的例子中，remove语句在一条if语句中，且之前没有return语句。因此，我们只需满足if语句判断的表达式为真。
+表达式：
+reg1.exist((target.'xq::piece_owner' != input1 and (target.'xq::position'[0] === reg6 and target.'xq::position'[1] === reg7)))
+我们将其与上面的必要条件取“逻辑与”,发现if语句的约束条件被上面的必要条件所包含。
+因此，假设最后一步红队走了游戏结束，红队获得胜利的充分必要条件为：
+reg1.exist(target.'piece_owner' == 'xq::black_team' and target.'xq::piece_name' == 'Jiang'
+    and target.'xq::position'[0] === reg6 and target.'xq::position'[1] === reg7)
+这个表达式的表达式头为exist，有两种情况：
+一种是目标的数组是棋盘的一部分，另一种是目标数组是一个回合内创建出来的。
+如果是后者，只需往前查找reg1[i] = ...和reg1.append(...)，再进行推理
+如果是前者，则从棋盘中的对应数组出发，看看初始的元素有哪些，再往前查找reg1[i] = ...和reg1.append(...)
+在象棋的例子中，不存在形如reg1[i] = ...和reg1.append(...)的语句，但有reg1.remove(...)的语句。
+那么我们要进行的努力就是：
+1. 利用约束表达式中已经确定的信息缩小目标数组中元素的范围。如利用target.'piece_owner' == 'xq::black_team'
+和target.'xq::piece_name' == 'Jiang'就能直接锁定唯一的一个元素：黑方的将
+2. 对每一个符合条件的元素分析：要么改变元素本身的性质来迎合当前回合的变量，要么取适当的当前回合的变量的值来迎合元素的一些性质，
+要么同时进行，如果一个元素具有被选中的可能，还要保证它不在之前的回合中被remove掉。
+
+在这个例子中，红方并不能改变黑方棋子的位置，也不能阻止黑方改变黑棋的位置。
+我们暂时这样做：只让红方走，不让黑方走，之后再考虑黑方的走法对红方策略的影响。
+现在的问题是：如何让红方知道自己不能改变黑棋的位置？
+
+我们让红方尝试寻找能够改变reg1.find(target.'piece_owner' == 'xq::black_team' and target.'xq::piece_name' == 'Jiang')
+的变量的条件。
+
+能够改变棋子位置的代码如下：
+reg5.'xq::position'[0] = reg6
+reg5.'xq::position'[1] = reg7
+
+因此我们希望reg5就是reg1.find(target.'piece_owner' == 'xq::black_team' and target.'xq::piece_name' == 'Jiang')
+而reg5的定义是：
+reg5 &= reg1.find((target.'xq::position'[0] === reg2 and target.'xq::position'[1] === reg3))
+因此我们希望存在同时满足两种约束条件的reg1中的元素
+即reg1.exist(target.'piece_owner' == 'xq::black_team' and target.'xq::piece_name' == 'Jiang'
+and target.'xq::position'[0] === reg2 and target.'xq::position'[1] === reg3)
+我们需要找到这样的reg2和reg3
+我们能保证黑将不会多出来
+我们不能保证黑将在最后红队的回合前没有被移动过
+我们先考虑如何第一次让黑将动起来。由于黑方不能行动，第一次动黑将前黑将的位置在初始位置。
+即reg2 === 4, reg3 === 9
+reg2, reg3的定义是：
+request reg2, reg3, s.t.{'func::batch_logic_and'(reg4)}, provided:
+    reg4 = 'list'
+    reg4.append(reg2 == 'natural_number')
+    reg4.append(reg3 == 'natural_number')
+    reg4.append(reg2 >= 0)
+    reg4.append(reg2 <= 8)
+    reg4.append(reg3 >= 0)
+    reg4.append(reg3 <= 9)
+    reg4.append(reg1.exist((target.'xq::position'[0] === reg2 and target.'xq::position'[1] === reg3)))
+    reg4.append(reg1.find((target.'xq::position'[0] === reg2 and target.'xq::position'[1] === reg3)).'xq::piece_owner' == input1)
+
+这与最后一个条件矛盾，因此推出在第一次行动时我们找不到这样的reg2, reg3, 也就没有reg5, 也就证明了不能移动黑将
+而后续的行动黑将的位置并不改变，reg2 === 4, reg3 === 9始终与最后一个条件矛盾，因此红方任何一次行动都不能移动黑将
+因此推出只能尝试在最后一个回合使得reg6 === 4, reg7 === 9。
+我们可以很轻易地发现：
+由reg1.find((target.'xq::position'[0] === reg2 and target.'xq::position'[1] === reg3)).'xq::piece_owner' == input1
+和reg5 &= reg1.find((target.'xq::position'[0] === reg2 and target.'xq::position'[1] === reg3))
+可推出reg5.'xq::piece_owner' == 'xq::red_team'
+但机器很难做到这一点
+除了数学归纳外，我们还可以让AI通过一些规律进行一些假设并尝试求证，但是如何发现规律是比较困难的事情。
+
+reg6, reg7的定义出现在了7个不同的if语句中，分别代表了车、马、象、士、将、炮、兵七种棋子的行棋规则。
+我们可以分7类讨论。
+我们可以先用reg6和reg7的明显的约束将象和士舍去。
+以车为例，假设reg5为车
+最后一步可能阻碍reg6 === 4, reg7 === 9的限制条件为：
+request reg6, reg7, s.t.{'func::batch_logic_and'(reg8)}, provided:
+    reg8 = 'list'
+    reg8.append(reg6 == 'natural_number')
+    reg8.append(reg7 == 'natural_number')
+    reg8.append(reg6 >= 0)
+    reg8.append(reg6 <= 8)
+    reg8.append(reg7 >= 0)
+    reg8.append(reg7 <= 9)
+    reg9 = 'list'
+    reg9.append(reg6 === reg2)
+    reg9.append(reg7 =!= reg3)
+    reg9.append(not reg1.exist(((target.'xq::position'[0] === reg2 and target.'xq::position'[1] > 'func::min'(reg7, reg3)) and target.'xq::position'[1] < 'func::max'(reg7, reg3))))
+    reg10 = 'func::batch_logic_and'(reg9)
+    reg11 = 'list'
+    reg11.append(reg7 === reg3)
+    reg11.append(reg6 =!= reg2)
+    reg11.append(not reg1.exist(((target.'xq::position'[1] === reg3 and target.'xq::position'[0] > 'func::min'(reg6, reg2)) and target.'xq::position'[0] < 'func::max'(reg6, reg2))))
+    reg12 = 'func::batch_logic_and'(reg11)
+    reg13 = (reg10 or reg12)
+    reg8.append(reg13)
+    reg8.append(not reg1.exist((target.'xq::piece_owner' == input1 and (target.'xq::position'[0] === reg6 and target.'xq::position'[1] === reg7))))
+我们可以从中得出：
+
+

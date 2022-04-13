@@ -3,6 +3,7 @@ from Exception.agi_exception import AGIException
 from AGI.objects import obj, num_obj, to_integer
 from AGI.concept_instance_creator import create_concept_instance
 from Exception.hardcoded_code_exception import HardcodedCodeException
+from dynamic_simulator_inputs import dynamic_simulator_inputs
 
 
 def compare_concepts(params: AGIList, cid_of) -> AGIObject:
@@ -211,7 +212,11 @@ def remove_element_by_index(params: AGIList, cid_of):
 
 
 def get_input_object(params: AGIList, cid_of):
-    input_object = num_obj(int(input('Dynamic code simulator asks you to input one param.\n')), cid_of)
+    if dynamic_simulator_inputs:
+        print('Obtained an input from cache!')
+        input_object = num_obj(dynamic_simulator_inputs.pop(0), cid_of)
+    else:
+        input_object = num_obj(int(input('Dynamic code simulator asks you to input one param.\n')), cid_of)
     return input_object
 
 

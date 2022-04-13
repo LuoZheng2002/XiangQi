@@ -30,7 +30,7 @@ def create_xq_chessboard(cid_of):
         piece_object('xq::red_team', 'xq::Pao', [7, 2], cid_of),
         piece_object('xq::red_team', 'xq::Bing', [0, 3], cid_of),
         piece_object('xq::red_team', 'xq::Bing', [2, 3], cid_of),
-        piece_object('xq::red_team', 'xq::Bing', [4, 3], cid_of),
+        # piece_object('xq::red_team', 'xq::Bing', [4, 3], cid_of),
         piece_object('xq::red_team', 'xq::Bing', [6, 3], cid_of),
         piece_object('xq::red_team', 'xq::Bing', [8, 3], cid_of),
         piece_object('xq::black_team', 'xq::Che', [0, 9], cid_of),
@@ -46,7 +46,7 @@ def create_xq_chessboard(cid_of):
         piece_object('xq::black_team', 'xq::Pao', [7, 7], cid_of),
         piece_object('xq::black_team', 'xq::Bing', [0, 6], cid_of),
         piece_object('xq::black_team', 'xq::Bing', [2, 6], cid_of),
-        piece_object('xq::black_team', 'xq::Bing', [4, 6], cid_of),
+        # piece_object('xq::black_team', 'xq::Bing', [4, 6], cid_of),
         piece_object('xq::black_team', 'xq::Bing', [6, 6], cid_of),
         piece_object('xq::black_team', 'xq::Bing', [8, 6], cid_of),
     ]

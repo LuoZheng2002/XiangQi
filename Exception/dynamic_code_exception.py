@@ -41,7 +41,7 @@ def translate_exception_AGIList(agi_list: AGIList, cid_of, cid_reverse, indentat
     if attribute_name != '':
         result += "'" + attribute_name + "': "
     result += 'AGIList\n'
-    if type(agi_list.get_element(0)) == AGIObject and agi_list.get_element(0).concept_id == cid_of['xq::piece']:
+    if agi_list.size() > 0 and type(agi_list.get_element(0)) == AGIObject and agi_list.get_element(0).concept_id == cid_of['xq::piece']:
         result += 'Some xq::piece s.\n'
     else:
         for i in agi_list.value:
@@ -111,7 +111,7 @@ def show_dynamic_code_exception(dce: DynamicCodeException, cid_of, cid_reverse, 
                 print('The runtime registers are:')
                 for register in process.runtime_memory.registers:
                     print('reg' + str(register.index) + ':')
-                    print_exception_obj(register, cid_of, cid_reverse)
+                    print_exception_obj(register.value, cid_of, cid_reverse)
             print('The problematic line is: ' + str(process.line))
             print('The code is:')
             translate_code(process.code_id, cid_of, cid_reverse)

@@ -13,6 +13,8 @@ def print_chessboard(xq_chessboard: AGIObject, cid_of, cid_reverse):
         position = [None, None]
         position[0] = to_integer(i.attributes[cid_of['xq::position']].agi_list().get_element(0), cid_of)
         position[1] = to_integer(i.attributes[cid_of['xq::position']].agi_list().get_element(1), cid_of)
+        if chessboard[position[1]][position[0]] is not None:
+            assert False
         chessboard[position[1]][position[0]] = name
     print('#################################################################################')
     print('####### 0 ##### 1 ##### 2 ##### 3 ##### 4 ##### 5 ##### 6 ##### 7 ##### 8 #######')

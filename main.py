@@ -39,4 +39,4 @@ try:
             print_obj(black_benefit, cid_reverse)
             break
 except DynamicCodeException as d:
-    show_dynamic_code_exception(d, cid_of, cid_reverse, False)
+    show_dynamic_code_exception(d, cid_of, cid_reverse, True)

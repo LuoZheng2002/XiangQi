@@ -1,0 +1,6 @@
+reg0 &= 'func::find_winning_determining_variables'(input0)  # expression的形式
+reg1 &= 'func::find_variable_changing_code'(input0, reg0)  # line的形式
+input0.'xq::chessboard'.'xq::pieces'.count(target.'piece_owner' == 'xq::who_is_next_func'(input0.'chessboard')
+reg2 &= 'func::find_ideal_last_operation_input'(input0, reg1)
+
+# 象棋中是吃掉对方的将就算赢，但其它游戏可能胜利的条件不是定性的，比如要达到一定的分数。

@@ -102,21 +102,23 @@ elif reg5.'xq::piece_name' == 'xq::Jiang':
         reg8 = 'list'
         reg8.append(reg6 == 'natural_number')
         reg8.append(reg7 == 'natural_number')
-        reg8.append(reg6 >= 3)
-        reg8.append(reg6 <= 5)
-        if input1 == 'xq::red_team':
-            reg8.append(reg7 >= 0)
-            reg8.append(reg7 <= 2)
-        else:
-            reg8.append(reg7 >= 7)
-            reg8.append(reg7 <= 9)
+        reg8.append(reg6 >= 0)
+        reg8.append(reg6 <= 8)
+        reg8.append((reg7 >=0 and reg7 <= 2) or (reg7 >= 7 and reg7 <= 9))
         reg9 = 'list'
         reg9.append((reg6 === (reg2 + 1) and reg7 === reg3))
         reg9.append((reg6 === (reg2 - 1) and reg7 === reg3))
         reg9.append((reg6 === reg2 and reg7 === (reg3 + 1)))
         reg9.append((reg6 === reg2 and reg7 === (reg3 - 1)))
-        reg10 = 'func::batch_logic_or'(reg9)
-        reg8.append(reg10)
+        reg10 &= reg1.find(target.'xq::piece_owner' != input1 and target.'xq::piece_name' == 'xq::Jiang')
+        reg11 &= 'list'
+        reg11.append(reg6 === reg10.'xq::position'[0] and reg7 === reg10.'xq::position'[1])
+        reg11.append(reg2 === reg6)
+        reg11.append(not reg1.exist(target.'xq::position'[0] === reg2 and target.'xq::position'[1] > 'func::min'(reg3, reg7) and target.'xq::position'[1] < 'func::max'(reg3, reg7)))
+        reg12 &= 'func::batch_logic_and'(reg11)
+        reg9.append(reg12)
+        reg13 &= 'func::batch_logic_or'(reg9)
+        reg8.append(reg13)
         reg8.append(not reg1.exist((target.'xq::piece_owner' == input1 and (target.'xq::position'[0] === reg6 and target.'xq::position'[1] === reg7))))
 elif reg5.'xq::piece_name' == 'xq::Pao':
     request reg6, reg7, s.t.{'func::batch_logic_and'(reg8)}, provided:

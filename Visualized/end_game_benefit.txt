@@ -1,3 +1,8 @@
 if input0.'xq::pieces'.exist((target.'xq::piece_owner' != input1 and target.'xq::piece_name' == 'xq::Jiang')):
     return 0
 return 1
+
+# 找return语句
+# return的可以是一个常量，那么说明会有多个return，看每个return对应的条件
+# return的也可以是一个变量，规定return的内容一定是实数（即有相对大小），用传统意义上的大于小于可以判断。
+#

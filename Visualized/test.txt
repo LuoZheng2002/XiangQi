@@ -1,3 +1,4 @@
-reg0 &= 1111112223344444
-reg1 &= reg0.count(target == '1')
-return reg1
+reg0 = 0
+for i in range(10):
+    'func::increment'(reg0, 1)
+return reg0
